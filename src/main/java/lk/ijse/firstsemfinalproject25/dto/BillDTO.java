@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class BillDto {
+public class BillDTO {
 
     private String billId;
     private String serviceId;

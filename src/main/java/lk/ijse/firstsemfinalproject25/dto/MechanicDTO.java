@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MechanicDto {
+public class MechanicDTO {
     private String mechanicId;
     private String userId;
     private String name;

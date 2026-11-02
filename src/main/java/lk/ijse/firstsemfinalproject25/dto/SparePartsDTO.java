@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class ServicePartsDto {
+public class SparePartsDTO {
 
-    private String serviceId;
     private String partId;
-    private int quantity;
+    private String partName;
     private double unitPrice;
+    private int stockQty;
+    private int reorderLevel;
 }

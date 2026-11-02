@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ServiceRequestDto {
+public class ServiceRequestDTO {
     private String serviceId;
     private String bikeId;
     private String mechanicId;

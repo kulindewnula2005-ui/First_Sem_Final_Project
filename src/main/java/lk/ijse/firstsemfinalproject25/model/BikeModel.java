@@ -5,6 +5,7 @@ import lk.ijse.firstsemfinalproject25.util.CrudUtil;
 import lk.ijse.firstsemfinalproject25.util.IdGenerator;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BikeModel {

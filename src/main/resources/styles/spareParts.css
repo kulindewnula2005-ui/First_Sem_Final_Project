@@ -1,0 +1,22 @@
+/* ================= STOCK BADGES ================= */
+.stock-ok  { -fx-background-color: #0f3d22; -fx-text-fill: #34d399; }
+.stock-low { -fx-background-color: #f59e0b; -fx-text-fill: #1a1203; }
+.stock-out { -fx-background-color: #e11d1d; -fx-text-fill: white; }
+
+/* ================= LOW-STOCK WARNING NEXT TO THE TITLE ================= */
+.low-warning {
+    -fx-text-fill: #f59e0b;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: #2a1f0a;
+    -fx-background-radius: 6;
+    -fx-padding: 4 10 4 10;
+}
+
+/* ================= "ADD STOCK" ICON IN THE TABLE ================= */
+.stock-button { -fx-text-fill: #34d399; -fx-font-size: 17px; }
+.stock-button:hover {
+    -fx-text-fill: #6ee7b7;
+    -fx-background-color: #0f2a1d;
+    -fx-background-radius: 6;
+}

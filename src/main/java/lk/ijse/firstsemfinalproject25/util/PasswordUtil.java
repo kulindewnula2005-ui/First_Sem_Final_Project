@@ -15,4 +15,12 @@ public class PasswordUtil {
         }
         return sb.toString();
     }
+
+    public static boolean matches(String plain, String storedHash) throws Exception {
+        if (storedHash == null) return false;
+        return MessageDigest.isEqual(
+                hash(plain).getBytes(StandardCharsets.UTF_8),
+                storedHash.toLowerCase().getBytes(StandardCharsets.UTF_8));
+    }
+
 }

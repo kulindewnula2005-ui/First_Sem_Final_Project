@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" minHeight="0.0" minWidth="0.0" spacing="14.0" styleClass="page-root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.firstsemfinalproject25.controller.ReportsController">
+    <stylesheets>
+        <URL value="@../styles/bike.css" />
+        <URL value="@../styles/reports.css" />
+    </stylesheets>
+    <fx:define>
+        <ToggleGroup fx:id="tabGroup" />
+    </fx:define>
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="14.0" />
+    </padding>
+    <children>
+
+        <!-- ===== header: title + save message ===== -->
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <children>
+                <Label styleClass="page-title" text="Reports" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblMessage" managed="false" visible="false" wrapText="true" />
+            </children>
+        </HBox>
+
+        <!-- ===== tabs ===== -->
+        <!-- ===== tabs ===== -->
+        <HBox spacing="4.0" styleClass="rep-tabs">
+            <children>
+                <ToggleButton fx:id="tglAll" maxWidth="Infinity" onAction="#onTab" selected="true" styleClass="rep-tab" text="All" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="tglDaily" maxWidth="Infinity" onAction="#onTab" styleClass="rep-tab" text="Daily" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="tglCompleted" maxWidth="Infinity" onAction="#onTab" styleClass="rep-tab" text="Completed" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="tglPending" maxWidth="Infinity" onAction="#onTab" styleClass="rep-tab" text="Pending" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="tglIncome" maxWidth="Infinity" onAction="#onTab" styleClass="rep-tab" text="Income" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+                <ToggleButton fx:id="tglStock" maxWidth="Infinity" onAction="#onTab" styleClass="rep-tab" text="Stock" toggleGroup="$tabGroup" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+
+
+        <!-- ===== date + generate ===== -->
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <children>
+                <DatePicker fx:id="dpDate" prefWidth="190.0" styleClass="rep-date" />
+                <Label fx:id="lblScope" styleClass="rep-hint" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnGenerate" onAction="#onGenerate" styleClass="add-button" text="📄   Generate Report" />
+            </children>
+        </HBox>
+
+        <!-- ===== summary cards ===== -->
+        <GridPane hgap="12.0" minWidth="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="25.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="25.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="25.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="25.0" />
+            </columnConstraints>
+            <children>
+                <VBox maxWidth="Infinity" minWidth="0.0" spacing="2.0" styleClass="rep-card" GridPane.columnIndex="0">
+                    <children>
+                        <Label fx:id="lblT1" styleClass="rep-card-title" text="-" />
+                        <Label fx:id="lblV1" styleClass="rep-card-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox maxWidth="Infinity" minWidth="0.0" spacing="2.0" styleClass="rep-card" GridPane.columnIndex="1">
+                    <children>
+                        <Label fx:id="lblT2" styleClass="rep-card-title" text="-" />
+                        <Label fx:id="lblV2" styleClass="rep-card-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox maxWidth="Infinity" minWidth="0.0" spacing="2.0" styleClass="rep-card" GridPane.columnIndex="2">
+                    <children>
+                        <Label fx:id="lblT3" styleClass="rep-card-title" text="-" />
+                        <Label fx:id="lblV3" styleClass="rep-card-value" text="0" />
+                    </children>
+                </VBox>
+                <VBox maxWidth="Infinity" minWidth="0.0" spacing="2.0" styleClass="rep-card" GridPane.columnIndex="3">
+                    <children>
+                        <Label fx:id="lblT4" styleClass="rep-card-title" text="-" />
+                        <Label fx:id="lblV4" styleClass="rep-card-value" text="0" />
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
+
+        <!-- ===== chart (left) + table (right) ===== -->
+        <GridPane hgap="12.0" minHeight="0.0" minWidth="0.0" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="44.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="0.0" percentWidth="56.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="0.0" vgrow="ALWAYS" />
+            </rowConstraints>
+            <children>
+
+                <!-- chart card -->
+                <VBox minHeight="0.0" minWidth="0.0" spacing="4.0" styleClass="page-card" GridPane.columnIndex="0">
+                    <children>
+                        <Label fx:id="lblChartTitle" styleClass="card-title" text="Daily Service Overview" />
+                        <Label fx:id="lblChartSub" styleClass="rep-hint" text="" />
+                        <BarChart fx:id="chart" animated="false" barGap="0.0" categoryGap="22.0" legendVisible="false" minHeight="0.0" minWidth="0.0" styleClass="rep-chart" VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis fx:id="xAxis" animated="false" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="yAxis" animated="false" side="LEFT" />
+                            </yAxis>
+                        </BarChart>
+                    </children>
+                </VBox>
+
+                <!-- table card -->
+                <VBox minHeight="0.0" minWidth="0.0" spacing="8.0" styleClass="page-card" GridPane.columnIndex="1">
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Label fx:id="lblTableTitle" styleClass="card-title" text="Details" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblRowCount" styleClass="page-info" text="" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblReport" minHeight="0.0" minWidth="0.0" styleClass="data-table" VBox.vgrow="ALWAYS">
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
+    </children>
+</VBox>

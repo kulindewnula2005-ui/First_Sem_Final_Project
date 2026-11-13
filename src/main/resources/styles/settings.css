@@ -1,0 +1,79 @@
+/* ================= SCROLL AREA ================= */
+.set-scroll { -fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0; }
+.set-scroll > .viewport { -fx-background-color: transparent; }
+.set-scroll .corner { -fx-background-color: transparent; }
+.set-scroll .scroll-bar { -fx-background-color: transparent; }
+.set-scroll .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }
+.set-scroll .scroll-bar .increment-button,
+.set-scroll .scroll-bar .decrement-button { -fx-padding: 0; -fx-pref-height: 0; -fx-pref-width: 0; }
+
+/* ================= TEXT ================= */
+.set-hint  { -fx-text-fill: #7a7a82; -fx-font-size: 12px; }
+.set-ok    { -fx-text-fill: #34d399; -fx-font-size: 12px; }
+.set-bad   { -fx-text-fill: #ff6b6b; -fx-font-size: 12px; }
+.set-key   { -fx-text-fill: #9a9aa2; -fx-font-size: 13px; }
+.set-value { -fx-text-fill: white;   -fx-font-size: 13px; -fx-font-weight: bold; }
+.dark-dialog .set-hint { -fx-text-fill: #7a7a82; }
+
+/* ================= BUTTON ================= */
+.set-button {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.35), 10, 0.2, 0, 2);
+}
+.set-button:hover { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }
+.set-button:disabled { -fx-opacity: 0.5; }
+
+.set-progress { -fx-accent: #e11d1d; }
+.set-progress > .track { -fx-background-color: #26262c; -fx-background-radius: 4; }
+.set-progress > .bar   { -fx-background-color: #e11d1d; -fx-background-radius: 4; -fx-background-insets: 0; -fx-padding: 4; }
+
+/* ================= ROLE BADGE (users table) ================= */
+.role-admin { -fx-background-color: #e11d1d; -fx-text-fill: white; }
+
+/* ================= THEME TILES ================= */
+.theme-tile {
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 10;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 12;
+    -fx-graphic-text-gap: 10;
+    -fx-cursor: hand;
+}
+.theme-tile:hover    { -fx-border-color: #55555c; }
+.theme-tile:selected { -fx-background-color: #1a1214; -fx-border-color: #e11d1d; }
+
+/* the little preview pictures (they keep their colours in both themes) */
+.sw {
+    -fx-min-width: 170;
+    -fx-pref-width: 170;
+    -fx-min-height: 86;
+    -fx-pref-height: 86;
+    -fx-padding: 8;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+.sw-dark  { -fx-background-color: #0a0a0c; -fx-border-color: #26262c; }
+.sw-light { -fx-background-color: #f4f5f7; -fx-border-color: #dcdee3; }
+.sw-side  { -fx-background-color: #0e0e11; -fx-background-radius: 4; -fx-min-width: 26; -fx-pref-width: 26; }
+.sw-bar {
+    -fx-background-color: #e11d1d;
+    -fx-background-radius: 3;
+    -fx-min-height: 9;
+    -fx-pref-height: 9;
+    -fx-max-height: 9;
+}
+.sw-card-dark  { -fx-background-color: #131316; -fx-background-radius: 4; -fx-border-color: #26262c; -fx-border-radius: 4; -fx-min-height: 20; -fx-pref-height: 20; }
+.sw-card-light { -fx-background-color: #ffffff; -fx-background-radius: 4; -fx-border-color: #dcdee3; -fx-border-radius: 4; -fx-min-height: 20; -fx-pref-height: 20; }

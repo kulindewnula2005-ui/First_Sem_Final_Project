@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" minHeight="0.0" minWidth="0.0" spacing="14.0" styleClass="page-root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.firstsemfinalproject25.controller.ScanController">
+    <stylesheets>
+        <URL value="@../styles/bike.css" />
+        <URL value="@../styles/scan.css" />
+    </stylesheets>
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="14.0" />
+    </padding>
+    <children>
+
+        <!-- ===== header ===== -->
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <children>
+                <Label styleClass="page-title" text="Scan Number Plate" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label styleClass="res-hint" text="Point the camera at a plate, upload a photo, or type the number." />
+            </children>
+        </HBox>
+
+        <HBox minHeight="0.0" minWidth="0.0" spacing="14.0" VBox.vgrow="ALWAYS">
+            <children>
+
+                <!-- ================= LEFT: LIVE CAMERA ================= -->
+                <VBox minHeight="0.0" minWidth="0.0" spacing="10.0" styleClass="page-card" HBox.hgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label styleClass="card-title" text="📷   Live Camera" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblStatus" styleClass="scan-chip, chip-neutral" text="Camera off" />
+                            </children>
+                        </HBox>
+
+                        <StackPane fx:id="previewPane" minHeight="0.0" minWidth="0.0" prefHeight="360.0" styleClass="scan-preview" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ImageView fx:id="preview" managed="false" pickOnBounds="true" preserveRatio="false" />
+                                <Label fx:id="lblPlaceholder" maxWidth="420.0" styleClass="scan-placeholder" text="Starting the camera..." wrapText="true" />
+                            </children>
+                        </StackPane>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <ComboBox fx:id="cmbCamera" prefWidth="200.0" promptText="Camera" styleClass="form-combo" />
+                                <Button fx:id="btnCamera" onAction="#onCamera" styleClass="outline-button" text="⏹   Stop camera" />
+                                <CheckBox fx:id="chkAuto" selected="true" styleClass="form-check" text="Auto-scan" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Button fx:id="btnRead" onAction="#onRead" styleClass="outline-button" text="🔍   Read now" />
+                                <Button fx:id="btnUpload" onAction="#onUpload" styleClass="outline-button" text="🖼   Upload photo" />
+                            </children>
+                        </HBox>
+
+                        <Label styleClass="res-hint" text="Hold the plate steady inside the frame, close enough to fill most of it, with good light and no glare." wrapText="true" />
+                    </children>
+                </VBox>
+
+                <!-- ================= RIGHT: PLATE + RESULT ================= -->
+                <VBox maxWidth="460.0" minWidth="380.0" prefWidth="420.0" spacing="14.0">
+                    <children>
+
+                        <!-- shown only when Tesseract cannot be found -->
+                        <VBox fx:id="boxOcrWarn" managed="false" spacing="8.0" styleClass="warn-card" visible="false">
+                            <children>
+                                <Label styleClass="warn-title" text="⚠   Tesseract OCR is not installed" />
+                                <Label styleClass="warn-text" text="Install it once (free) from github.com/UB-Mannheim/tesseract/wiki, keeping the English language selected. Typing a plate and pressing Search works without it." wrapText="true" />
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Button onAction="#onLocateOcr" styleClass="outline-button" text="Locate tesseract.exe..." />
+                                        <Button onAction="#onCheckOcr" styleClass="outline-button" text="Check again" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- plate box -->
+                        <VBox spacing="8.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="Number Plate" />
+                                <HBox spacing="8.0">
+                                    <children>
+                                        <TextField fx:id="txtPlate" onAction="#onSearch" promptText="e.g. WP CAB-1234" styleClass="plate-input" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnSearch" onAction="#onSearch" styleClass="add-button" text="Search" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="res-hint" text="A wrong reading can be corrected here, then press Search." wrapText="true" HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnAgain" onAction="#onAgain" styleClass="outline-button" text="↺   Scan again" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- result -->
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minHeight="0.0" styleClass="scan-scroll" VBox.vgrow="ALWAYS">
+                            <content>
+                                <VBox fx:id="resultBox" spacing="10.0" styleClass="page-card" />
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>

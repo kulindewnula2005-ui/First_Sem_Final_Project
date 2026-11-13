@@ -1,0 +1,115 @@
+/* ================= TABS (Daily | Completed | Pending | Income | Stock) ================= */
+.rep-tabs {
+    -fx-background-color: #131316;
+    -fx-background-radius: 10;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 10;
+    -fx-padding: 4;
+}
+.rep-tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #b5b5bc;
+    -fx-font-size: 13px;
+    -fx-padding: 10 18 10 18;
+    -fx-cursor: hand;
+}
+.rep-tab:hover { -fx-background-color: #1a1a1f; }
+.rep-tab:selected {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.4), 10, 0.2, 0, 2);
+}
+
+/* ================= DATE PICKER ================= */
+.rep-date {
+    -fx-background-color: #131316;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-pref-height: 40;
+}
+.rep-date > .text-field {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 0 0 0 12;
+    -fx-cursor: hand;
+}
+.rep-date > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0 12 0 6;
+}
+.rep-date > .arrow-button > .arrow { -fx-background-color: #b5b5bc; }
+.rep-date:focused  { -fx-border-color: #e11d1d; }
+.rep-date:disabled { -fx-opacity: 0.4; }
+
+.date-picker-popup {
+    -fx-background-color: #131316;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 14, 0.2, 0, 4);
+}
+.date-picker-popup > .month-year-pane { -fx-background-color: #0e0e11; -fx-padding: 6; }
+.date-picker-popup > * > .spinner { -fx-background-color: transparent; }
+.date-picker-popup > * > .spinner > .button { -fx-background-color: transparent; }
+.date-picker-popup > * > .spinner > .button > .left-arrow  { -fx-background-color: #b5b5bc; }
+.date-picker-popup > * > .spinner > .button > .right-arrow { -fx-background-color: #b5b5bc; }
+.date-picker-popup > * > .spinner > .label { -fx-text-fill: white; -fx-font-weight: bold; }
+.date-picker-popup > .calendar-grid { -fx-background-color: #131316; }
+.date-picker-popup .day-name-cell,
+.date-picker-popup .week-number-cell { -fx-text-fill: #9a9aa2; -fx-background-color: transparent; }
+.date-picker-popup .day-cell { -fx-background-color: transparent; -fx-text-fill: white; }
+.date-picker-popup .day-cell:hover { -fx-background-color: #2a1012; }
+.date-picker-popup .day-cell.today { -fx-border-color: #e11d1d; -fx-border-radius: 4; }
+.date-picker-popup .day-cell:selected { -fx-background-color: #e11d1d; -fx-text-fill: white; }
+.date-picker-popup .day-cell.previous-month,
+.date-picker-popup .day-cell.next-month { -fx-text-fill: #55555c; }
+
+.rep-hint { -fx-text-fill: #7a7a82; -fx-font-size: 12px; }
+.rep-ok   { -fx-text-fill: #34d399; -fx-font-size: 12px; }
+
+/* ================= SUMMARY CARDS ================= */
+.rep-card {
+    -fx-background-color: #131316;
+    -fx-background-radius: 10;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 10;
+    -fx-padding: 14 16 14 16;
+}
+.rep-card-title { -fx-text-fill: #b5b5bc; -fx-font-size: 12px; }
+.rep-card-value { -fx-text-fill: white;   -fx-font-size: 22px; -fx-font-weight: bold; }
+
+/* ================= CHART ================= */
+.rep-chart { -fx-background-color: transparent; -fx-padding: 0; }
+.rep-chart .chart-content { -fx-padding: 4 6 0 0; }
+.rep-chart .chart-plot-background { -fx-background-color: transparent; }
+.rep-chart .chart-vertical-grid-lines { -fx-stroke: transparent; }
+.rep-chart .chart-horizontal-grid-lines { -fx-stroke: #26262c; -fx-stroke-dash-array: 3 3; }
+.rep-chart .chart-alternative-column-fill,
+.rep-chart .chart-alternative-row-fill { -fx-fill: transparent; -fx-stroke: transparent; }
+.rep-chart .chart-horizontal-zero-line,
+.rep-chart .chart-vertical-zero-line { -fx-stroke: #3a3a42; }
+.rep-chart .axis {
+    -fx-tick-label-fill: #b5b5bc;
+    -fx-tick-label-font-size: 11px;
+    -fx-font-family: "Segoe UI";
+    -fx-border-color: transparent;
+}
+.rep-chart .axis-tick-mark,
+.rep-chart .axis-minor-tick-mark { -fx-stroke: transparent; }
+.rep-chart .chart-bar {
+    -fx-background-color: -fx-bar-fill;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4 4 0 0;
+}
+.rep-chart .default-color0.chart-bar { -fx-bar-fill: #e11d1d; }
+
+/* ================= STATUS BADGE: stock "Out" ================= */
+.badge-out { -fx-background-color: #e11d1d; -fx-text-fill: white; }

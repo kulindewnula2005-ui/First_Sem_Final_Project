@@ -14,4 +14,6 @@ public class BikeDTO {
     private String brand;
     private String model;
     private int year;
+    private String engineNo;
+    private String chassisNo;
 }

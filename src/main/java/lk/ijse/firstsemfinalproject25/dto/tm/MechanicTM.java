@@ -15,4 +15,6 @@ public class MechanicTM {
     private String name;
     private String specialization;
     private String phone;
+    private String username;
+    private String activeJobs;
 }

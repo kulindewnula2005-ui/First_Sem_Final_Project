@@ -6,6 +6,8 @@ import lk.ijse.firstsemfinalproject25.util.IdGenerator;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MechanicModel {
 
@@ -36,7 +38,7 @@ public class MechanicModel {
         return rs.next() ? map(rs) : null;
     }
 
-
+    /** After login, a Mechanic user finds their own mechanic record with this. */
     public MechanicDTO searchByUserId(String userId) throws Exception {
         ResultSet rs = CrudUtil.execute("SELECT * FROM mechanic WHERE user_id=?", userId);
         return rs.next() ? map(rs) : null;
@@ -52,7 +54,7 @@ public class MechanicModel {
         return rs.next() ? rs.getString(1) : null;
     }
 
-
+    /** Mechanics with no job currently In Progress (for the Assign Mechanic combo box). */
     public ArrayList<MechanicDTO> getAvailable() throws Exception {
         ResultSet rs = CrudUtil.execute(
                 "SELECT * FROM mechanic m WHERE NOT EXISTS "
@@ -65,14 +67,28 @@ public class MechanicModel {
         return list;
     }
 
+    /** mechanic_id -> number of jobs that are not Completed yet. */
+    public Map<String, Integer> getActiveJobCounts() throws Exception {
+        ResultSet rs = CrudUtil.execute(
+                "SELECT mechanic_id, COUNT(*) FROM service_request "
+                        + "WHERE mechanic_id IS NOT NULL AND status <> 'Completed' GROUP BY mechanic_id");
+        Map<String, Integer> counts = new HashMap<>();
+        while (rs.next()) {
+            counts.put(rs.getString(1), rs.getInt(2));
+        }
+        return counts;
+    }
+
     public boolean save(MechanicDTO dto) throws Exception {
         validate(dto);
         if (isPhoneUsed(dto.getPhone(), null)) {
             throw new Exception("A mechanic with this phone number already exists.");
         }
+        String userId = checkUser(dto.getUserId(), null);
         return CrudUtil.execute(
                 "INSERT INTO mechanic (mechanic_id, user_id, name, specialization, phone) VALUES (?,?,?,?,?)",
-                dto.getMechanicId(), dto.getUserId(), dto.getName().trim(), dto.getSpecialization(), dto.getPhone().trim());
+                dto.getMechanicId(), userId, dto.getName().trim(),
+                blankToNull(dto.getSpecialization()), dto.getPhone().trim());
     }
 
     public boolean update(MechanicDTO dto) throws Exception {
@@ -80,12 +96,14 @@ public class MechanicModel {
         if (isPhoneUsed(dto.getPhone(), dto.getMechanicId())) {
             throw new Exception("Another mechanic already uses this phone number.");
         }
+        String userId = checkUser(dto.getUserId(), dto.getMechanicId());
         return CrudUtil.execute(
                 "UPDATE mechanic SET user_id=?, name=?, specialization=?, phone=? WHERE mechanic_id=?",
-                dto.getUserId(), dto.getName().trim(), dto.getSpecialization(), dto.getPhone().trim(), dto.getMechanicId());
+                userId, dto.getName().trim(), blankToNull(dto.getSpecialization()),
+                dto.getPhone().trim(), dto.getMechanicId());
     }
 
-
+    /** A mechanic with assigned jobs cannot be deleted. */
     public boolean delete(String mechanicId) throws Exception {
         ResultSet rs = CrudUtil.execute("SELECT service_id FROM service_request WHERE mechanic_id=?", mechanicId);
         if (rs.next()) {
@@ -99,6 +117,32 @@ public class MechanicModel {
                 "SELECT mechanic_id FROM mechanic WHERE phone=? AND mechanic_id<>?",
                 phone.trim(), excludeMechanicId == null ? "" : excludeMechanicId);
         return rs.next();
+    }
+
+    /** The linked login account (optional) must exist, be a Mechanic and not belong to another mechanic. */
+    private String checkUser(String userId, String excludeMechanicId) throws Exception {
+        String id = blankToNull(userId);
+        if (id == null) {
+            return null;
+        }
+        ResultSet user = CrudUtil.execute("SELECT role FROM `user` WHERE user_id=?", id);
+        if (!user.next()) {
+            throw new Exception("The selected login account does not exist.");
+        }
+        if (!"Mechanic".equals(user.getString(1))) {
+            throw new Exception("The linked login account must have the Mechanic role.");
+        }
+        ResultSet linked = CrudUtil.execute(
+                "SELECT mechanic_id FROM mechanic WHERE user_id=? AND mechanic_id<>?",
+                id, excludeMechanicId == null ? "" : excludeMechanicId);
+        if (linked.next()) {
+            throw new Exception("This login account is already linked to another mechanic.");
+        }
+        return id;
+    }
+
+    private String blankToNull(String text) {
+        return (text == null || text.trim().isEmpty()) ? null : text.trim();
     }
 
     private void validate(MechanicDTO dto) throws Exception {

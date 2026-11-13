@@ -6,13 +6,76 @@ import lk.ijse.firstsemfinalproject25.util.IdGenerator;
 import lk.ijse.firstsemfinalproject25.util.PasswordUtil;
 
 import java.sql.ResultSet;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
+/**
+ * All database work for the `user` table (sign in, sign up and user management).
+ * Use it like the other models:   private final UserModel userModel = new UserModel();
+ */
 public class UserModel {
 
     public static final List<String> ROLES = Arrays.asList("Admin", "Receptionist", "Mechanic");
+
+    /** Roles a person may pick for themselves on the Sign Up page (Admin is never self-service). */
+    private static final Set<String> SELF_SIGNUP_ROLES = Set.of("Receptionist", "Mechanic");
+
+    private static final int MIN_PASSWORD_LENGTH = 4;
+
+    /** Thrown when the username is already used by another account. */
+    public static class UsernameTakenException extends Exception {
+        public UsernameTakenException() {
+            super("Username already exists.");
+        }
+    }
+
+    /* ===================== SIGN IN ===================== */
+
+    /** Returns the user when username + password are correct, otherwise null. */
+    public UserDTO authenticate(String username, String rawPassword) throws Exception {
+        if (username == null || rawPassword == null) return null;
+
+        ResultSet rs = CrudUtil.execute("SELECT * FROM `user` WHERE username=?", username.trim());
+        if (!rs.next()) return null;
+
+        UserDTO user = map(rs);
+        return PasswordUtil.matches(rawPassword, user.getPasswordHash()) ? user : null;
+    }
+
+    /* ===================== SIGN UP ===================== */
+
+    /** True when no account exists yet (the first account becomes the Admin). */
+    public boolean isEmpty() throws Exception {
+        ResultSet rs = CrudUtil.execute("SELECT COUNT(*) FROM `user`");
+        rs.next();
+        return rs.getInt(1) == 0;
+    }
+
+    /** Used by the live "username available?" check on the Sign Up page. */
+    public boolean usernameExists(String username) throws Exception {
+        return usernameExists(username, null);
+    }
+
+    /**
+     * Creates an account from the Sign Up page.
+     * - the very first account is created as Admin
+     * - everyone else gets the chosen role (Receptionist / Mechanic only)
+     * @throws UsernameTakenException if the username already exists
+     */
+    public boolean register(String fullName, String username, String rawPassword, String requestedRole)
+            throws Exception {
+        String role = isEmpty()
+                ? "Admin"
+                : (SELF_SIGNUP_ROLES.contains(requestedRole) ? requestedRole : "Receptionist");
+
+        UserDTO dto = new UserDTO(getNextId(), username, null, role, fullName);
+        return save(dto, rawPassword);
+    }
+
+    /* ===================== CRUD ===================== */
 
     public String getNextId() throws Exception {
         return IdGenerator.nextId("`user`", "user_id", "U");
@@ -59,23 +122,31 @@ public class UserModel {
     /** rawPassword is what the user typed; it is hashed before saving. */
     public boolean save(UserDTO dto, String rawPassword) throws Exception {
         validate(dto);
-        if (rawPassword == null || rawPassword.length() < 4) {
-            throw new Exception("Password must be at least 4 characters.");
+        if (rawPassword == null || rawPassword.length() < MIN_PASSWORD_LENGTH) {
+            throw new Exception("Password must be at least " + MIN_PASSWORD_LENGTH + " characters.");
         }
         if (usernameExists(dto.getUsername(), null)) {
-            throw new Exception("Username already exists.");
+            throw new UsernameTakenException();
         }
-        return CrudUtil.execute(
-                "INSERT INTO `user` (user_id, username, password_hash, role, full_name) VALUES (?,?,?,?,?)",
-                dto.getUserId(), dto.getUsername().trim(), PasswordUtil.hash(rawPassword),
-                dto.getRole(), dto.getFullName().trim());
+        try {
+            return CrudUtil.execute(
+                    "INSERT INTO `user` (user_id, username, password_hash, role, full_name) VALUES (?,?,?,?,?)",
+                    dto.getUserId(), dto.getUsername().trim(), PasswordUtil.hash(rawPassword),
+                    dto.getRole(), dto.getFullName().trim());
+        } catch (Exception ex) {
+            // two people took the same username at the same moment (UNIQUE key on username)
+            if (ex instanceof SQLIntegrityConstraintViolationException) {
+                throw new UsernameTakenException();
+            }
+            throw ex;
+        }
     }
 
     /** Updates username, role and full name (not the password). */
     public boolean update(UserDTO dto) throws Exception {
         validate(dto);
         if (usernameExists(dto.getUsername(), dto.getUserId())) {
-            throw new Exception("Username already exists.");
+            throw new UsernameTakenException();
         }
         return CrudUtil.execute(
                 "UPDATE `user` SET username=?, role=?, full_name=? WHERE user_id=?",
@@ -83,8 +154,8 @@ public class UserModel {
     }
 
     public boolean changePassword(String userId, String newRawPassword) throws Exception {
-        if (newRawPassword == null || newRawPassword.length() < 4) {
-            throw new Exception("Password must be at least 4 characters.");
+        if (newRawPassword == null || newRawPassword.length() < MIN_PASSWORD_LENGTH) {
+            throw new Exception("Password must be at least " + MIN_PASSWORD_LENGTH + " characters.");
         }
         return CrudUtil.execute("UPDATE `user` SET password_hash=? WHERE user_id=?",
                 PasswordUtil.hash(newRawPassword), userId);
@@ -98,14 +169,9 @@ public class UserModel {
         return CrudUtil.execute("DELETE FROM `user` WHERE user_id=?", userId);
     }
 
-    /** Login: returns the user, or null when the username/password is wrong. */
-    public UserDTO authenticate(String username, String rawPassword) throws Exception {
-        ResultSet rs = CrudUtil.execute(
-                "SELECT * FROM `user` WHERE username=? AND password_hash=?",
-                username.trim(), PasswordUtil.hash(rawPassword));
-        return rs.next() ? map(rs) : null;
-    }
+    /* ===================== helpers ===================== */
 
+    /** excludeUserId lets "update" ignore the user's own row. */
     private boolean usernameExists(String username, String excludeUserId) throws Exception {
         ResultSet rs = CrudUtil.execute(
                 "SELECT user_id FROM `user` WHERE username=? AND user_id<>?",
@@ -117,8 +183,14 @@ public class UserModel {
         if (dto.getUsername() == null || dto.getUsername().trim().isEmpty()) {
             throw new Exception("Username is required.");
         }
+        if (dto.getUsername().trim().length() > 50) {
+            throw new Exception("Username must be 50 characters or less.");
+        }
         if (dto.getFullName() == null || dto.getFullName().trim().isEmpty()) {
             throw new Exception("Full name is required.");
+        }
+        if (dto.getFullName().trim().length() > 100) {
+            throw new Exception("Full name must be 100 characters or less.");
         }
         if (!ROLES.contains(dto.getRole())) {
             throw new Exception("Role must be Admin, Receptionist or Mechanic.");

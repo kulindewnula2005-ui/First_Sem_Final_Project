@@ -80,9 +80,9 @@ public class CustomerModel {
 
 
     public boolean delete(String customerId) throws Exception {
-        ResultSet rs = CrudUtil.execute("SELECT bike_id FROM motorcycle WHERE customer_id=?", customerId);
+        ResultSet rs = CrudUtil.execute("SELECT bike_id FROM bike WHERE customer_id=?", customerId);
         if (rs.next()) {
-            throw new Exception("This customer still has registered motorcycles. Remove them first.");
+            throw new Exception("This customer still has registered bike. Remove them first.");
         }
         return CrudUtil.execute("DELETE FROM customer WHERE customer_id=?", customerId);
     }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<HBox prefHeight="600.0" prefWidth="1000.0" styleClass="login-root" stylesheets="@../styles/login.css"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="lk.ijse.firstsemfinalproject25.controller.LoginController">
+    <children>
+
+        <!-- ============ LEFT: branding panel ============ -->
+        <StackPane minWidth="500.0" prefWidth="500.0" styleClass="brand-panel">
+            <children>
+                <ImageView fx:id="bannerImage" fitHeight="600.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="false" />
+                <VBox alignment="BOTTOM_LEFT" spacing="4.0" StackPane.alignment="BOTTOM_LEFT">
+                    <padding><Insets bottom="48.0" left="40.0" right="40.0" /></padding>
+                    <children>
+                        <Label styleClass="brand-line" text="KEEP YOUR BIKE" />
+                        <Label styleClass="brand-big" text="IN TOP SHAPE" />
+                        <Label styleClass="brand-small" text="SERVICE  •  REPAIR  •  RIDE" />
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+
+        <!-- ============ RIGHT: login form ============ -->
+        <StackPane styleClass="form-panel" HBox.hgrow="ALWAYS">
+            <children>
+                <VBox fx:id="loginCard" alignment="CENTER_LEFT" maxWidth="360.0" spacing="8.0">
+                    <children>
+                        <ImageView fx:id="logoView" fitHeight="70.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <Region prefHeight="14.0" />
+
+                        <Label styleClass="login-title" text="Welcome Back" />
+                        <Label styleClass="login-sub" text="Sign in to manage your garage" />
+                        <Region prefHeight="14.0" />
+
+                        <Label styleClass="field-label" text="Username" />
+                        <TextField fx:id="txtUsername" onAction="#onLogin" promptText="Enter your username" styleClass="login-field" />
+
+                        <Region prefHeight="4.0" />
+                        <Label styleClass="field-label" text="Password" />
+                        <StackPane alignment="CENTER_RIGHT">
+                            <children>
+                                <PasswordField fx:id="txtPassword" onAction="#onLogin" promptText="Enter your password" styleClass="login-field" />
+                                <TextField fx:id="txtPasswordVisible" managed="false" onAction="#onLogin" promptText="Enter your password" styleClass="login-field" visible="false" />
+                                <Button fx:id="btnTogglePassword" focusTraversable="false" onAction="#onTogglePassword" styleClass="eye-button" text="👁">
+                                    <StackPane.margin><Insets right="6.0" /></StackPane.margin>
+                                </Button>
+                            </children>
+                        </StackPane>
+
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <CheckBox fx:id="chkRemember" styleClass="remember-check" text="Remember me" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Hyperlink onAction="#onForgotPassword" styleClass="forgot-link" text="Forgot password?" />
+                            </children>
+                        </HBox>
+
+                        <Label fx:id="lblError" managed="false" styleClass="error-label" visible="false" wrapText="true" />
+
+                        <Region prefHeight="4.0" />
+                        <Button fx:id="btnLogin" defaultButton="true" maxWidth="Infinity" onAction="#onLogin" styleClass="login-button" text="LOGIN" />
+
+                        <HBox alignment="CENTER" spacing="4.0">
+                            <children>
+                                <Label styleClass="login-sub" text="Don't have an account?" />
+                                <Hyperlink onAction="#onSignUp" styleClass="forgot-link" text="Sign Up" />
+                            </children>
+                        </HBox>
+
+                        <Region prefHeight="14.0" />
+                        <Label styleClass="footer-label" text="© 2026 Bike Garage Management System" />
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+</HBox>

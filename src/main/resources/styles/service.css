@@ -1,0 +1,92 @@
+/* ================= SEARCH POP-UP LIST (customer / bike search) ================= */
+.search-list {
+    -fx-background-color: #131316;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-padding: 2;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 14, 0.2, 0, 4);
+}
+.search-list .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-padding: 0 12 0 12;
+    -fx-cell-size: 38;
+}
+.search-list .list-cell:filled:hover    { -fx-background-color: #2a1012; }
+.search-list .list-cell:filled:selected { -fx-background-color: #e11d1d; -fx-text-fill: white; }
+.search-list .scroll-bar { -fx-background-color: transparent; }
+.search-list .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }
+
+/* ================= RED + BUTTON NEXT TO THE SEARCH FIELDS ================= */
+.plus-button {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-min-width: 42;
+    -fx-pref-width: 42;
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.45), 10, 0.2, 0, 2);
+}
+.plus-button:hover { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }
+
+/* ================= RESET / SAVE ================= */
+.reset-button {
+    -fx-background-color: #1a1a1e;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+}
+.reset-button:hover { -fx-background-color: #25252b; }
+
+.save-button {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 20 12 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.45), 12, 0.2, 0, 2);
+}
+.save-button:hover { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }
+
+/* ================= COMPLAINT BOX ================= */
+.form-area {
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-text-inner-color: white;
+    -fx-prompt-text-fill: #7a7a82;
+    -fx-highlight-fill: #e11d1d;
+    -fx-font-size: 13px;
+}
+.form-area .content {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 8;
+}
+.form-area .scroll-pane { -fx-background-color: transparent; }
+.form-area .viewport    { -fx-background-color: transparent; }
+.form-area:focused      { -fx-border-color: #e11d1d; }
+
+/* ================= MESSAGES ================= */
+.success-text { -fx-text-fill: #34d399; -fx-font-size: 12px; }

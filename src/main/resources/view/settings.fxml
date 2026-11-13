@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="root" minHeight="0.0" minWidth="0.0" spacing="14.0" styleClass="page-root" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.firstsemfinalproject25.controller.SettingsController">
+    <stylesheets>
+        <URL value="@../styles/bike.css" />
+        <URL value="@../styles/settings.css" />
+    </stylesheets>
+    <fx:define>
+        <ToggleGroup fx:id="themeGroup" />
+    </fx:define>
+    <padding>
+        <Insets bottom="16.0" left="16.0" right="16.0" top="14.0" />
+    </padding>
+    <children>
+
+        <!-- ===== header ===== -->
+        <HBox alignment="CENTER_LEFT" spacing="12.0">
+            <children>
+                <Label styleClass="page-title" text="Settings" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label styleClass="set-hint" text="Bike Garage Management System  ·  v1.0" />
+            </children>
+        </HBox>
+
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" minHeight="0.0" styleClass="set-scroll" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox spacing="14.0">
+                    <padding>
+                        <Insets right="8.0" />
+                    </padding>
+                    <children>
+
+                        <!-- ================= APPEARANCE ================= -->
+                        <VBox spacing="12.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="🎨   Appearance" />
+                                <Label styleClass="set-hint" text="Choose how the application looks. It changes straight away and is remembered next time." />
+                                <HBox spacing="14.0">
+                                    <children>
+                                        <ToggleButton fx:id="tglDark" contentDisplay="TOP" onAction="#onTheme" selected="true" styleClass="theme-tile" text="🌙   Dark" toggleGroup="$themeGroup">
+                                            <graphic>
+                                                <HBox spacing="6.0" styleClass="sw, sw-dark">
+                                                    <children>
+                                                        <Region styleClass="sw-side" />
+                                                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                                <Region styleClass="sw-bar" />
+                                                                <Region styleClass="sw-card-dark" VBox.vgrow="ALWAYS" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </ToggleButton>
+                                        <ToggleButton fx:id="tglLight" contentDisplay="TOP" onAction="#onTheme" styleClass="theme-tile" text="☀   Light" toggleGroup="$themeGroup">
+                                            <graphic>
+                                                <HBox spacing="6.0" styleClass="sw, sw-light">
+                                                    <children>
+                                                        <Region styleClass="sw-side" />
+                                                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                                                            <children>
+                                                                <Region styleClass="sw-bar" />
+                                                                <Region styleClass="sw-card-light" VBox.vgrow="ALWAYS" />
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </HBox>
+                                            </graphic>
+                                        </ToggleButton>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- ================= MY ACCOUNT ================= -->
+                        <VBox spacing="12.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="👤   My Account" />
+                                <HBox spacing="28.0">
+                                    <children>
+
+                                        <!-- profile -->
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="section-label" text="PROFILE" />
+                                                <Label styleClass="form-label" text="Full name *" />
+                                                <TextField fx:id="txtFullName" styleClass="form-field" />
+                                                <Label styleClass="form-label" text="Username *" />
+                                                <TextField fx:id="txtUsername" styleClass="form-field" />
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                    <children>
+                                                        <Label styleClass="set-key" text="Role" />
+                                                        <Label fx:id="lblRole" styleClass="set-value" text="-" />
+                                                    </children>
+                                                </HBox>
+                                                <HBox>
+                                                    <padding>
+                                                        <Insets top="4.0" />
+                                                    </padding>
+                                                    <children>
+                                                        <Button fx:id="btnSaveProfile" onAction="#onSaveProfile" styleClass="set-button" text="Save Profile" />
+                                                    </children>
+                                                </HBox>
+                                                <Label fx:id="lblProfileMsg" managed="false" visible="false" wrapText="true" />
+                                            </children>
+                                        </VBox>
+
+                                        <!-- password -->
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="8.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="section-label" text="CHANGE PASSWORD" />
+                                                <Label styleClass="form-label" text="Current password *" />
+                                                <PasswordField fx:id="pfCurrent" styleClass="form-field" />
+                                                <Label styleClass="form-label" text="New password * (at least 4 characters)" />
+                                                <PasswordField fx:id="pfNew" styleClass="form-field" />
+                                                <Label styleClass="form-label" text="Confirm new password *" />
+                                                <PasswordField fx:id="pfConfirm" styleClass="form-field" />
+                                                <HBox>
+                                                    <padding>
+                                                        <Insets top="4.0" />
+                                                    </padding>
+                                                    <children>
+                                                        <Button fx:id="btnChangePassword" onAction="#onChangePassword" styleClass="set-button" text="Update Password" />
+                                                    </children>
+                                                </HBox>
+                                                <Label fx:id="lblPasswordMsg" managed="false" visible="false" wrapText="true" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- ================= GARAGE INFORMATION ================= -->
+                        <VBox spacing="8.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="🏍   Garage Information" />
+                                <Label styleClass="set-hint" text="Your garage details. The name is added to the report files you save." />
+                                <HBox spacing="14.0">
+                                    <children>
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label" text="Garage name *" />
+                                                <TextField fx:id="txtGarageName" styleClass="form-field" />
+                                            </children>
+                                        </VBox>
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label" text="Phone" />
+                                                <TextField fx:id="txtGaragePhone" promptText="e.g. 0112345678" styleClass="form-field" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox spacing="14.0">
+                                    <children>
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label" text="Address" />
+                                                <TextField fx:id="txtGarageAddress" promptText="e.g. 12, Main Street, Panadura" styleClass="form-field" />
+                                            </children>
+                                        </VBox>
+                                        <VBox minWidth="0.0" prefWidth="300.0" spacing="6.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="form-label" text="Email" />
+                                                <TextField fx:id="txtGarageEmail" promptText="e.g. info@garage.lk" styleClass="form-field" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="14.0">
+                                    <padding>
+                                        <Insets top="4.0" />
+                                    </padding>
+                                    <children>
+                                        <Button fx:id="btnSaveGarage" onAction="#onSaveGarage" styleClass="set-button" text="Save Details" />
+                                        <Label fx:id="lblGarageMsg" managed="false" visible="false" wrapText="true" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- ================= USER ACCOUNTS (Admin only) ================= -->
+                        <VBox fx:id="cardUsers" spacing="10.0" styleClass="page-card">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="card-title" text="👥   User Accounts" />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnAddUser" onAction="#onAddUser" styleClass="set-button" text="＋   Add User" />
+                                    </children>
+                                </HBox>
+                                <Label styleClass="set-hint" text="Admin: full control. Receptionist: customers, bikes, service, billing. Mechanic: assigned jobs." wrapText="true" />
+                                <TableView fx:id="tblUsers" maxHeight="260.0" minHeight="260.0" prefHeight="260.0" styleClass="data-table">
+                                    <columns>
+                                        <TableColumn fx:id="colUId" prefWidth="70.0" text="ID" />
+                                        <TableColumn fx:id="colUName" prefWidth="200.0" text="Full Name" />
+                                        <TableColumn fx:id="colUUsername" prefWidth="160.0" text="Username" />
+                                        <TableColumn fx:id="colURole" prefWidth="120.0" text="Role" />
+                                        <TableColumn fx:id="colUActions" prefWidth="130.0" sortable="false" text="Actions" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                </TableView>
+                                <Label fx:id="lblUsersMsg" managed="false" visible="false" wrapText="true" />
+                            </children>
+                        </VBox>
+
+                        <!-- ================= DATA BACKUP ================= -->
+                        <VBox spacing="8.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="💾   Data Backup" />
+                                <Label styleClass="set-hint" text="Saves a copy of all records (customers, bikes, jobs, parts, bills, payments and user names) as CSV files in a new folder. Passwords are not included." wrapText="true" />
+                                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                    <children>
+                                        <Label styleClass="set-key" text="Last backup:" />
+                                        <Label fx:id="lblLastBackup" styleClass="set-value" text="Never" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="14.0">
+                                    <children>
+                                        <Button fx:id="btnBackup" onAction="#onBackup" styleClass="set-button" text="💾   Back up now" />
+                                        <ProgressBar fx:id="progBackup" managed="false" prefWidth="180.0" styleClass="set-progress" visible="false" />
+                                    </children>
+                                </HBox>
+                                <Label fx:id="lblBackupMsg" managed="false" visible="false" wrapText="true" />
+                                <Label styleClass="set-hint" text="For a complete copy of the database (including accounts and passwords) use MySQL's mysqldump tool." wrapText="true" />
+                            </children>
+                        </VBox>
+
+                        <!-- ================= ABOUT ================= -->
+                        <VBox spacing="8.0" styleClass="page-card">
+                            <children>
+                                <Label styleClass="card-title" text="ℹ   About" />
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Label minWidth="110.0" styleClass="set-key" text="Application" />
+                                        <Label styleClass="set-value" text="Bike Garage Management System" />
+                                    </children>
+                                </HBox>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Label minWidth="110.0" styleClass="set-key" text="Version" />
+                                        <Label styleClass="set-value" text="1.0" />
+                                    </children>
+                                </HBox>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Label minWidth="110.0" styleClass="set-key" text="Java" />
+                                        <Label fx:id="lblJava" styleClass="set-value" text="-" />
+                                    </children>
+                                </HBox>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <Label minWidth="110.0" styleClass="set-key" text="JavaFX" />
+                                        <Label fx:id="lblFx" styleClass="set-value" text="-" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label minWidth="110.0" styleClass="set-key" text="Database" />
+                                        <Label fx:id="lblDb" styleClass="set-value" text="Checking..." />
+                                        <Region HBox.hgrow="ALWAYS" />
+                                        <Button fx:id="btnTestDb" onAction="#onTestConnection" styleClass="outline-button" text="Test connection" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>

@@ -1,0 +1,111 @@
+/* ================= STATUS CHIP ================= */
+.scan-chip { -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5 12 5 12; -fx-background-radius: 14; }
+.chip-neutral { -fx-background-color: #26262c; -fx-text-fill: #d0d0d6; }
+.chip-ok      { -fx-background-color: #0f3d22; -fx-text-fill: #34d399; }
+.chip-warn    { -fx-background-color: #3a2a08; -fx-text-fill: #fbbf24; }
+.chip-bad     { -fx-background-color: #3d1010; -fx-text-fill: #ff6b6b; }
+
+/* ================= CAMERA PREVIEW ================= */
+.scan-preview {
+    -fx-background-color: #050507;
+    -fx-background-radius: 10;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 10;
+}
+.scan-placeholder { -fx-text-fill: #8a8a92; -fx-font-size: 14px; -fx-text-alignment: center; }
+
+/* ================= PLATE BOX ================= */
+.plate-input {
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #7a7a82;
+    -fx-highlight-fill: #e11d1d;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 12 9 12;
+}
+.plate-input:focused { -fx-border-color: #e11d1d; }
+
+/* the plate as it looks on a bike */
+.plate-big {
+    -fx-background-color: #f4f4f1;
+    -fx-background-radius: 6;
+    -fx-border-color: #111111;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-text-fill: #111111;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 16 4 16;
+}
+
+/* ================= RESULT PANEL ================= */
+.scan-scroll { -fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0; }
+.scan-scroll > .viewport { -fx-background-color: transparent; }
+.scan-scroll .corner { -fx-background-color: transparent; }
+.scan-scroll .scroll-bar { -fx-background-color: transparent; }
+.scan-scroll .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }
+.scan-scroll .scroll-bar .increment-button,
+.scan-scroll .scroll-bar .decrement-button { -fx-padding: 0; -fx-pref-height: 0; -fx-pref-width: 0; }
+
+.res-section  { -fx-text-fill: #9a9aa2; -fx-font-size: 11px; -fx-font-weight: bold; }
+.res-hint     { -fx-text-fill: #7a7a82; -fx-font-size: 12px; }
+.res-big-icon { -fx-font-size: 44px; -fx-text-fill: #3a3a42; }
+.res-error    { -fx-text-fill: #ff6b6b; -fx-font-size: 12px; }
+
+.sugg-button {
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+}
+.sugg-button:hover { -fx-border-color: #e11d1d; -fx-background-color: #1a1214; }
+
+/* ================= TESSERACT WARNING ================= */
+.warn-card {
+    -fx-background-color: #2a1f0a;
+    -fx-background-radius: 10;
+    -fx-border-color: #5a4410;
+    -fx-border-radius: 10;
+    -fx-padding: 12 14 12 14;
+}
+.warn-title { -fx-text-fill: #fbbf24; -fx-font-size: 13px; -fx-font-weight: bold; }
+.warn-text  { -fx-text-fill: #d6c08a; -fx-font-size: 12px; }
+
+/* ================= CHECK BOX + SMALL RED + ================= */
+.form-check { -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; }
+.form-check .box {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 5;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 5;
+    -fx-padding: 3 5 3 5;
+}
+.form-check:selected .box  { -fx-background-color: #e11d1d; -fx-border-color: #e11d1d; }
+.form-check:selected .mark { -fx-background-color: white; }
+
+.plus-small {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-min-width: 42;
+    -fx-pref-width: 42;
+    -fx-min-height: 40;
+    -fx-pref-height: 40;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.plus-small:hover { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }

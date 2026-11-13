@@ -14,9 +14,14 @@ public class ServiceRequestTM {
 
     private String serviceId;
     private String bikeId;
-    private String mechanicId;
+    private String plate;
+    private String bikeName;
+    private String customerName;
     private String complaint;
+    private String serviceType;
+    private String mechanicId;
+    private String mechanicName;
     private String status;
-    private LocalDate dateReceived;
-    private LocalDate dateCompleted;
+    private String dateReceived;
+
 }

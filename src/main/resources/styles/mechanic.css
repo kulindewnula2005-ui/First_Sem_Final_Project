@@ -1,0 +1,16 @@
+/* check box in the form */
+.form-check { -fx-text-fill: white; -fx-font-size: 13px; -fx-cursor: hand; }
+.form-check .box {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 5;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 5;
+    -fx-padding: 3 5 3 5;
+}
+.form-check:selected .box  { -fx-background-color: #e11d1d; -fx-border-color: #e11d1d; }
+.form-check:selected .mark { -fx-background-color: white; }
+.form-check:focused .box   { -fx-border-color: #e11d1d; }
+
+/* small headings and hints inside the form */
+.section-label { -fx-text-fill: #9a9aa2; -fx-font-size: 11px; -fx-font-weight: bold; }
+.form-hint     { -fx-text-fill: #7a7a82; -fx-font-size: 11px; }

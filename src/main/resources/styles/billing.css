@@ -1,0 +1,84 @@
+/* ================= SUMMARY CARDS ================= */
+.sum-card {
+    -fx-background-color: #131316;
+    -fx-background-radius: 10;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 10;
+    -fx-padding: 14 16 14 16;
+}
+.sum-title { -fx-text-fill: #b5b5bc; -fx-font-size: 12px; }
+.sum-value { -fx-text-fill: white;   -fx-font-size: 22px; -fx-font-weight: bold; }
+.sum-green { -fx-text-fill: #34d399; }
+.sum-red   { -fx-text-fill: #ff6b6b; }
+.sum-sub   { -fx-text-fill: #7a7a82; -fx-font-size: 11px; }
+
+/* ================= TAB SWITCH (Bills | Payments) ================= */
+.seg-box {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 8;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 8;
+    -fx-padding: 3;
+}
+.seg-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6;
+    -fx-text-fill: #b5b5bc;
+    -fx-font-size: 13px;
+    -fx-padding: 8 18 8 18;
+    -fx-cursor: hand;
+}
+.seg-button:hover { -fx-background-color: #1a1a1f; }
+.seg-button:selected {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* ================= BILL STATUS BADGES ================= */
+.bill-paid    { -fx-background-color: #0f3d22; -fx-text-fill: #34d399; }
+.bill-partial { -fx-background-color: #f59e0b; -fx-text-fill: #1a1203; }
+.bill-unpaid  { -fx-background-color: #e11d1d; -fx-text-fill: white; }
+
+/* ================= TABLE ICONS ================= */
+.pay-button { -fx-text-fill: #34d399; }
+.pay-button:hover {
+    -fx-text-fill: #6ee7b7;
+    -fx-background-color: #0f2a1d;
+    -fx-background-radius: 6;
+}
+.action-button:disabled { -fx-opacity: 0.25; }
+
+/* ================= DIALOG EXTRAS ================= */
+.dark-dialog .form-label   { -fx-text-fill: #b5b5bc; -fx-font-size: 12px; }
+.dark-dialog .form-error   { -fx-text-fill: #ff6b6b; -fx-font-size: 12px; }
+.dark-dialog .info-label   { -fx-text-fill: #9a9aa2; -fx-font-size: 13px; }
+.dark-dialog .info-value   { -fx-text-fill: white;   -fx-font-size: 13px; -fx-font-weight: bold; }
+.dark-dialog .section-label { -fx-text-fill: #9a9aa2; -fx-font-size: 11px; -fx-font-weight: bold; }
+.dark-dialog .form-hint    { -fx-text-fill: #7a7a82; -fx-font-size: 11px; }
+
+.total-row {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-padding: 10 14 10 14;
+}
+.dark-dialog .total-label { -fx-text-fill: #b5b5bc; -fx-font-size: 13px; }
+.dark-dialog .total-value { -fx-text-fill: white;   -fx-font-size: 18px; -fx-font-weight: bold; }
+
+.dark-dialog .link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #e11d1d;
+    -fx-border-radius: 8;
+    -fx-text-fill: #e11d1d;
+    -fx-padding: 8 12 8 12;
+}
+.dark-dialog .link-button:hover { -fx-background-color: #2a1012; }
+
+/* scrolling bill view */
+.bill-scroll { -fx-background-color: transparent; -fx-background: transparent; }
+.bill-scroll > .viewport { -fx-background-color: transparent; }
+.bill-scroll .scroll-bar { -fx-background-color: transparent; }
+.bill-scroll .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }

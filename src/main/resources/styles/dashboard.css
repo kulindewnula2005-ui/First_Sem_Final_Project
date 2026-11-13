@@ -1,0 +1,191 @@
+/* ================= BASE ================= */
+.root-pane {
+    -fx-background-color: #0a0a0c;
+    -fx-font-family: "Segoe UI";
+    -fx-text-background-color: white;
+    -fx-text-base-color: white;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.content { -fx-background-color: #0a0a0c; }
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+    -fx-background-color: #0e0e11;
+    -fx-border-color: #1c1c21;
+    -fx-border-width: 0 1 0 0;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #e6e6ea;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+    -fx-graphic-text-gap: 12;
+    -fx-cursor: hand;
+}
+.nav-button:hover { -fx-background-color: #1a1a1f; }
+.nav-button:selected {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.45), 12, 0.2, 0, 2);
+}
+.nav-icon { -fx-text-fill: white; -fx-font-size: 15px; }
+
+.profile-box {
+    -fx-background-color: #131317;
+    -fx-background-radius: 10;
+    -fx-border-color: #202026;
+    -fx-border-radius: 10;
+    -fx-padding: 8 10 8 10;
+}
+.avatar {
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-background-color: #1d1d22;
+    -fx-background-radius: 50;
+    -fx-border-color: #e11d1d;
+    -fx-border-radius: 50;
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+.profile-name { -fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: bold; }
+.profile-role { -fx-text-fill: #9a9aa2; -fx-font-size: 11px; }
+.logout-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e11d1d;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+}
+.logout-button:hover { -fx-background-color: #1f1012; -fx-background-radius: 8; }
+
+/* ================= TOP BAR ================= */
+.datetime { -fx-text-fill: #d0d0d6; -fx-font-size: 12px; }
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+.icon-button:hover { -fx-background-color: #1a1a1f; -fx-background-radius: 20; }
+
+/* ================= BANNER ================= */
+.banner {
+    -fx-background-color: linear-gradient(to right, #0b0b0d 0%, #1a0708 45%, #3a0a0c 80%, #7a0d10 100%);
+    -fx-background-radius: 10;
+    -fx-border-color: #2a1416;
+    -fx-border-radius: 10;
+}
+.welcome      { -fx-text-fill: white;   -fx-font-size: 22px; -fx-font-weight: bold; }
+.welcome-name { -fx-text-fill: #e11d1d; -fx-font-size: 22px; -fx-font-weight: bold; }
+.welcome-sub  { -fx-text-fill: #b5b5bc; -fx-font-size: 12px; }
+.tag-line  { -fx-text-fill: white;   -fx-font-size: 18px; -fx-font-style: italic; -fx-font-weight: bold; }
+.tag-big   { -fx-text-fill: #e11d1d; -fx-font-size: 38px; -fx-font-style: italic; -fx-font-weight: bold; }
+.tag-small { -fx-text-fill: white;   -fx-font-size: 11px; }
+
+/* ================= CARDS ================= */
+.card {
+    -fx-background-color: #131316;
+    -fx-background-radius: 10;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 10;
+    -fx-padding: 14;
+}
+.stat-icon       { -fx-text-fill: #e11d1d; -fx-font-size: 30px; }
+.stat-icon-green { -fx-text-fill: #22c55e; -fx-font-size: 30px; }
+.stat-title { -fx-text-fill: #d6d6dc; -fx-font-size: 12px; }
+.stat-value { -fx-text-fill: white;   -fx-font-size: 26px; -fx-font-weight: bold; }
+.stat-up    { -fx-text-fill: #22c55e; -fx-font-size: 11px; }
+.section-title { -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; }
+
+.detail-link,
+.detail-link:visited {
+    -fx-text-fill: #7aa7ff;
+    -fx-font-size: 10px;
+    -fx-underline: true;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+.detail-link:hover { -fx-text-fill: #a9c4ff; }
+
+/* ================= TABLE ================= */
+.jobs-table {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-control-inner-background-alt: transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 0;
+}
+.jobs-table .column-header-background { -fx-background-color: transparent; }
+.jobs-table .column-header,
+.jobs-table .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #2a2a30 transparent;
+    -fx-size: 32;
+}
+.jobs-table .column-header .label {
+    -fx-text-fill: #b5b5bc;
+    -fx-font-size: 11px;
+    -fx-alignment: CENTER_LEFT;
+}
+.jobs-table .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #1f1f25 transparent;
+    -fx-cell-size: 38;
+}
+.jobs-table .table-row-cell:filled:hover    { -fx-background-color: #1c1c21; }
+.jobs-table .table-row-cell:filled:selected { -fx-background-color: #2a1012; }
+.jobs-table .table-cell {
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_LEFT;
+}
+.jobs-table .placeholder .label { -fx-text-fill: #8a8a92; }
+.jobs-table .scroll-bar { -fx-background-color: transparent; }
+.jobs-table .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }
+
+/* ================= STATUS BADGES ================= */
+.badge {
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-padding: 3 10 3 10;
+    -fx-background-radius: 5;
+}
+.badge-progress  { -fx-background-color: #2563eb; }
+.badge-pending   { -fx-background-color: #f59e0b; -fx-text-fill: #1a1203; }
+.badge-completed { -fx-background-color: #16a34a; }
+
+/* ================= QUICK ACTIONS ================= */
+.quick-primary {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 14 14 14 14;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.45), 12, 0.2, 0, 2);
+}
+.quick-primary:hover { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }
+
+.quick-button {
+    -fx-background-color: #1a1a1e;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 13 14 13 14;
+    -fx-cursor: hand;
+}
+.quick-button:hover { -fx-background-color: #25252b; -fx-border-color: #e11d1d; }

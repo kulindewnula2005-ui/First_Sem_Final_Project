@@ -15,6 +15,7 @@ public class ServiceRequestDTO {
     private String bikeId;
     private String mechanicId;
     private String complaint;
+    private String serviceType;
     private String status;
     private LocalDate dateReceived;
     private LocalDate dateCompleted;

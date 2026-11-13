@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class UserDTO {
+
     private String userId;
     private String username;
     private String passwordHash;
     private String role;
     private String fullName;
+
 }

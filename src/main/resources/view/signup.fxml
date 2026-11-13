@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+
+<HBox prefHeight="700.0" prefWidth="1000.0" styleClass="login-root" stylesheets="@../styles/login.css"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="lk.ijse.firstsemfinalproject25.controller.SignUpController">
+    <children>
+
+        <!-- ============ LEFT: branding panel ============ -->
+        <StackPane minWidth="500.0" prefWidth="500.0" styleClass="brand-panel">
+            <children>
+                <ImageView fx:id="bannerImage" fitHeight="700.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="false" />
+                <VBox alignment="BOTTOM_LEFT" spacing="4.0" StackPane.alignment="BOTTOM_LEFT">
+                    <padding><Insets bottom="48.0" left="40.0" right="40.0" /></padding>
+                    <children>
+                        <Label styleClass="brand-line" text="JOIN THE" />
+                        <Label styleClass="brand-big" text="GARAGE TEAM" />
+                        <Label styleClass="brand-small" text="SERVICE  •  REPAIR  •  RIDE" />
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+
+        <!-- ============ RIGHT: sign-up form ============ -->
+        <StackPane styleClass="form-panel" HBox.hgrow="ALWAYS">
+            <children>
+                <VBox fx:id="signupCard" alignment="CENTER_LEFT" maxWidth="360.0" spacing="4.0">
+                    <children>
+                        <ImageView fx:id="logoView" fitHeight="50.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label styleClass="login-title" text="Create Account" />
+                        <Label styleClass="login-sub" text="Fill in your details to get started" />
+                        <Region prefHeight="8.0" />
+
+                        <Label styleClass="field-label" text="Full Name" />
+                        <TextField fx:id="txtFullName" promptText="e.g. Kasun Perera" styleClass="login-field" />
+
+                        <Label styleClass="field-label" text="Username" />
+                        <TextField fx:id="txtUsername" promptText="Choose a username" styleClass="login-field" />
+                        <Label fx:id="lblUsernameStatus" minHeight="14.0" styleClass="hint-label" />
+
+                        <Label styleClass="field-label" text="Role" />
+                        <ComboBox fx:id="cmbRole" maxWidth="Infinity" styleClass="login-combo" />
+
+                        <Region prefHeight="4.0" />
+                        <Label styleClass="field-label" text="Password" />
+                        <PasswordField fx:id="txtPassword" promptText="At least 6 characters" styleClass="login-field" />
+                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                            <children>
+                                <ProgressBar fx:id="barStrength" maxWidth="Infinity" prefHeight="6.0" progress="0.0" styleClass="strength-bar" HBox.hgrow="ALWAYS" />
+                                <Label fx:id="lblStrength" minWidth="50.0" styleClass="hint-label" />
+                            </children>
+                        </HBox>
+
+                        <Label styleClass="field-label" text="Confirm Password" />
+                        <PasswordField fx:id="txtConfirm" promptText="Re-enter your password" styleClass="login-field" />
+                        <Label fx:id="lblConfirmStatus" minHeight="14.0" styleClass="hint-label" />
+
+                        <Label fx:id="lblError" managed="false" styleClass="error-label" visible="false" wrapText="true" />
+
+                        <Button fx:id="btnSignUp" defaultButton="true" disable="true" maxWidth="Infinity" onAction="#onSignUp" styleClass="login-button" text="SIGN UP" />
+
+                        <HBox alignment="CENTER" spacing="4.0">
+                            <children>
+                                <Label styleClass="login-sub" text="Already have an account?" />
+                                <Hyperlink onAction="#onBackToLogin" styleClass="forgot-link" text="Sign In" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+</HBox>

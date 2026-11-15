@@ -159,7 +159,7 @@ public class LoginController implements Initializable {
     @FXML
     private void onSignUp(ActionEvent e) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/SignUpPage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/signup.fxml"));
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.getScene().setRoot(root);
             stage.setTitle("Bike Garage - Sign Up");

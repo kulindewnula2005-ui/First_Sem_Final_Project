@@ -1,0 +1,17 @@
+/* ===== append this to the END of light.css (new scan page parts) ===== */
+.light .scan-tabs { -fx-background-color: #ffffff; -fx-border-color: #dcdee3; }
+.light .scan-tab { -fx-text-fill: #5b5f6a; }
+.light .scan-tab:hover { -fx-background-color: #eef0f3; }
+.light .scan-tab:selected,
+.light .scan-tab:selected:hover {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-text-fill: white;
+}
+.light .hist-row { -fx-background-color: #ffffff; -fx-border-color: #dcdee3; }
+.light .hist-row:hover { -fx-background-color: #fff5f5; -fx-border-color: #e11d1d; }
+.light .hist-plate { -fx-text-fill: #14151a; }
+.light .hist-sub   { -fx-text-fill: #6b7080; }
+.light .hist-time  { -fx-text-fill: #8a8f9a; }
+.light .res-red    { -fx-text-fill: #d92d2d; }
+.light .res-green  { -fx-text-fill: #059669; }
+/* the scanner card itself stays dark in both themes, like a camera app */

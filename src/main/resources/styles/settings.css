@@ -77,3 +77,22 @@
 }
 .sw-card-dark  { -fx-background-color: #131316; -fx-background-radius: 4; -fx-border-color: #26262c; -fx-border-radius: 4; -fx-min-height: 20; -fx-pref-height: 20; }
 .sw-card-light { -fx-background-color: #ffffff; -fx-background-radius: 4; -fx-border-color: #dcdee3; -fx-border-radius: 4; -fx-min-height: 20; -fx-pref-height: 20; }
+
+/* ===== append to the END of settings.css (the reset PIN dialog) ===== */
+.pin-box {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 10;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 10;
+    -fx-padding: 16 20 16 20;
+}
+.pin-big {
+    -fx-text-fill: white;
+    -fx-font-family: "Consolas";
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+}
+
+/* ===== append to the END of light.css ===== */
+.dark-dialog.light .pin-box { -fx-background-color: #f4f5f7; -fx-border-color: #dcdee3; }
+.dark-dialog.light .pin-big { -fx-text-fill: #14151a; }

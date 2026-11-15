@@ -3,20 +3,33 @@ package lk.ijse.firstsemfinalproject25.util;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
 
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-/** Opens a webcam, keeps the newest picture, and draws the "put the plate here" frame on the preview. */
+/**
+ * Opens a webcam, keeps the newest picture, and draws a phone-scanner style overlay on the preview:
+ * a dimmed picture, a rounded frame with thick corner brackets and a moving scan line.
+ */
 public class CameraService {
 
     /** Try 1280x720 first (better for reading plates); falls back to 640x480. */
     private static final boolean PREFER_HD = true;
+
+    /** The preview is drawn at most this wide (keeps the live picture smooth). */
+    private static final int PREVIEW_WIDTH = 960;
 
     // the frame in the middle of the picture, as a share of the picture size
     private static final double GX = 0.20;
@@ -29,11 +42,17 @@ public class CameraService {
     private Thread loop;
 
     private volatile boolean running;
-    private volatile int guideState;        // 0 = searching (red), 1 = reading (amber), 2 = found (green), 3 = check (amber)
+    private volatile int guideState;        // 0 = scanning (blue), 1 = reading (amber), 2 = found (green), 3 = check (amber)
+    private volatile boolean scanLine = true;
     private volatile String error;
 
     private final AtomicReference<BufferedImage> rawFrame = new AtomicReference<>();
     private final AtomicReference<BufferedImage> shownFrame = new AtomicReference<>();
+
+    // the dimmed area around the frame is drawn once per picture size
+    private BufferedImage maskImage;
+    private int maskW;
+    private int maskH;
 
     /* ======================= cameras ======================= */
     public synchronized List<String> findCameras() throws Exception {
@@ -139,8 +158,8 @@ public class CameraService {
                     continue;
                 }
                 rawFrame.set(img);
-                shownFrame.set(withGuide(img, guideState));
-                Thread.sleep(35);
+                shownFrame.set(render(img, guideState, scanLine));
+                Thread.sleep(25);
             }
         } catch (InterruptedException ignore) {
             Thread.currentThread().interrupt();
@@ -162,11 +181,17 @@ public class CameraService {
         return error;
     }
 
+    /** 0 = scanning (blue), 1 = reading (amber), 2 = found (green), 3 = check (amber). */
     public void setGuideState(int state) {
         this.guideState = state;
     }
 
-    /** The newest picture with the frame drawn on it (ARGB, ready to show). */
+    /** Switches the moving scan line on or off (it only shows while the state is 0 or 1). */
+    public void setScanLine(boolean on) {
+        this.scanLine = on;
+    }
+
+    /** The newest picture with the scanner overlay drawn on it (ARGB, ready to show). */
     public BufferedImage shownFrame() {
         return shownFrame.get();
     }
@@ -223,50 +248,147 @@ public class CameraService {
         return out;
     }
 
-    /* ======================= the frame on the preview ======================= */
-    private BufferedImage withGuide(BufferedImage src, int state) {
-        int w = src.getWidth();
-        int h = src.getHeight();
+    /* ======================= the scanner overlay ======================= */
+    /**
+     * Draws the picture with the scanner overlay.
+     * animate = true adds the moving scan line (only for states 0 and 1).
+     */
+    public BufferedImage render(BufferedImage src, int state, boolean animate) {
+        double f = Math.min(1.0, PREVIEW_WIDTH / (double) src.getWidth());
+        int w = Math.max(1, (int) Math.round(src.getWidth() * f));
+        int h = Math.max(1, (int) Math.round(src.getHeight() * f));
+
         BufferedImage out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = out.createGraphics();
         try {
-            g.drawImage(src, 0, 0, null);
+            g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
-            int x = (int) (w * GX);
-            int y = (int) (h * GY);
-            int gw = (int) (w * GW);
-            int gh = (int) (h * GH);
+            g.drawImage(src, 0, 0, w, h, null);
+            g.drawImage(mask(w, h), 0, 0, null);      // dimmed outside, slightly lighter inside
 
-            // darken everything outside the frame
-            g.setColor(new Color(0, 0, 0, 120));
-            g.fillRect(0, 0, w, y);
-            g.fillRect(0, y + gh, w, h - y - gh);
-            g.fillRect(0, y, x, gh);
-            g.fillRect(x + gw, y, w - x - gw, gh);
+            double x = w * GX;
+            double y = h * GY;
+            double gw = w * GW;
+            double gh = h * GH;
+            double r = radius(w);
+            RoundRectangle2D.Double frame = new RoundRectangle2D.Double(x, y, gw, gh, r * 2, r * 2);
+            Color color = colorFor(state);
 
-            Color color;
-            switch (state) {
-                case 1, 3 -> color = new Color(245, 158, 11);
-                case 2 -> color = new Color(52, 211, 153);
-                default -> color = new Color(225, 29, 29);
+            // thin outline
+            g.setStroke(new BasicStroke(1.2f));
+            g.setColor(new Color(255, 255, 255, 70));
+            g.draw(frame);
+
+            // moving scan line
+            if (animate && (state == 0 || state == 1)) {
+                drawScanLine(g, frame, x, y, gw, gh, r, color);
             }
-            g.setColor(color);
-            int t = Math.max(3, w / 320);
-            int len = Math.max(24, w / 14);
-            g.fillRect(x, y, len, t);
-            g.fillRect(x, y, t, len);
-            g.fillRect(x + gw - len, y, len, t);
-            g.fillRect(x + gw - t, y, t, len);
-            g.fillRect(x, y + gh - t, len, t);
-            g.fillRect(x, y + gh - len, t, len);
-            g.fillRect(x + gw - len, y + gh - t, len, t);
-            g.fillRect(x + gw - t, y + gh - len, t, len);
 
-            g.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 90));
-            g.drawRect(x, y, gw, gh);
+            // thick rounded corners
+            drawCorners(g, x, y, gw, gh, r, color, Math.max(4f, w / 150f));
         } finally {
             g.dispose();
         }
         return out;
+    }
+
+    private static double radius(int w) {
+        return Math.max(16, w / 24.0);
+    }
+
+    private static Color colorFor(int state) {
+        return switch (state) {
+            case 1, 3 -> new Color(245, 158, 11);     // amber
+            case 2 -> new Color(52, 211, 153);        // green
+            default -> new Color(37, 118, 235);       // blue
+        };
+    }
+
+    private synchronized BufferedImage mask(int w, int h) {
+        if (maskImage == null || maskW != w || maskH != h) {
+            BufferedImage m = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = m.createGraphics();
+            try {
+                g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                double r = radius(w);
+                RoundRectangle2D.Double frame =
+                        new RoundRectangle2D.Double(w * GX, h * GY, w * GW, h * GH, r * 2, r * 2);
+
+                g.setColor(new Color(0, 0, 0, 135));
+                g.fillRect(0, 0, w, h);
+
+                g.setComposite(AlphaComposite.Clear);          // cut the frame out of the dim layer
+                g.fill(frame);
+
+                g.setComposite(AlphaComposite.SrcOver);
+                g.setColor(new Color(255, 255, 255, 16));
+                g.fill(frame);
+            } finally {
+                g.dispose();
+            }
+            maskImage = m;
+            maskW = w;
+            maskH = h;
+        }
+        return maskImage;
+    }
+
+    private void drawScanLine(Graphics2D g, Shape clip, double x, double y, double gw, double gh,
+                              double r, Color c) {
+        double t = (System.currentTimeMillis() % 2400L) / 2400.0;
+        double p = t < 0.5 ? t * 2 : 2 - t * 2;          // 0 -> 1 -> 0
+        p = p * p * (3 - 2 * p);                          // smooth ends
+
+        double top = y + r * 0.45;
+        double bottom = y + gh - r * 0.45;
+        double ly = top + p * (bottom - top);
+
+        Shape old = g.getClip();
+        g.setClip(clip);
+
+        g.setPaint(new GradientPaint(0f, (float) (ly - 46), new Color(c.getRed(), c.getGreen(), c.getBlue(), 0),
+                0f, (float) ly, new Color(c.getRed(), c.getGreen(), c.getBlue(), 80)));
+        g.fill(new Rectangle2D.Double(x, ly - 46, gw, 46));
+
+        g.setPaint(c);
+        g.fill(new Rectangle2D.Double(x + r * 0.5, ly - 1.5, gw - r, 3));
+
+        g.setClip(old);
+    }
+
+    private void drawCorners(Graphics2D g, double x, double y, double gw, double gh, double r,
+                             Color c, float thickness) {
+        double len = r * 2.2;
+        Path2D.Double p = new Path2D.Double();
+
+        // top left
+        p.moveTo(x, y + len);
+        p.lineTo(x, y + r);
+        p.quadTo(x, y, x + r, y);
+        p.lineTo(x + len, y);
+
+        // top right
+        p.moveTo(x + gw - len, y);
+        p.lineTo(x + gw - r, y);
+        p.quadTo(x + gw, y, x + gw, y + r);
+        p.lineTo(x + gw, y + len);
+
+        // bottom right
+        p.moveTo(x + gw, y + gh - len);
+        p.lineTo(x + gw, y + gh - r);
+        p.quadTo(x + gw, y + gh, x + gw - r, y + gh);
+        p.lineTo(x + gw - len, y + gh);
+
+        // bottom left
+        p.moveTo(x + len, y + gh);
+        p.lineTo(x + r, y + gh);
+        p.quadTo(x, y + gh, x, y + gh - r);
+        p.lineTo(x, y + gh - len);
+
+        g.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        g.setColor(c);
+        g.draw(p);
     }
 }

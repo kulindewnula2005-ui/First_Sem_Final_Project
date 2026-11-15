@@ -32,10 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import lk.ijse.firstsemfinalproject25.dto.UserDTO;
 import lk.ijse.firstsemfinalproject25.model.UserModel;
-import lk.ijse.firstsemfinalproject25.util.AppSettings;
-import lk.ijse.firstsemfinalproject25.util.CrudUtil;
-import lk.ijse.firstsemfinalproject25.util.Session;
-import lk.ijse.firstsemfinalproject25.util.ThemeManager;
+import lk.ijse.firstsemfinalproject25.util.*;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -64,6 +61,8 @@ public class SettingsController implements Initializable {
             "user", "customer", "bike", "mechanic", "service_request",
             "spare_part", "service_parts", "bill", "payment");
 
+
+
     /* ---------- appearance ---------- */
     @FXML private VBox root;
     @FXML private ToggleGroup themeGroup;
@@ -81,6 +80,9 @@ public class SettingsController implements Initializable {
     @FXML private PasswordField pfConfirm;
     @FXML private Button btnChangePassword;
     @FXML private Label lblPasswordMsg;
+    @FXML public Button btnSaveGarage;
+    @FXML public Button btnAddUser;
+    @FXML public Button btnResetPin;
 
     /* ---------- garage information ---------- */
     @FXML private TextField txtGarageName;
@@ -132,6 +134,11 @@ public class SettingsController implements Initializable {
 
         loadAccount();
         testConnection();
+    }
+
+    @FXML
+    private void onResetPin(ActionEvent e) {
+        new ResetPinDialog(root.getScene().getWindow()).show();
     }
 
     /* ======================= APPEARANCE ======================= */
@@ -200,10 +207,14 @@ public class SettingsController implements Initializable {
             showMsg(lblProfileMsg, "No user account exists yet. Add a user account in the database first.", true);
         }
 
-        // only an Admin manages the other accounts
-        boolean admin = hasUser && "Admin".equals(me.getRole());
+        // only an Super Admin manages the other accounts
+        boolean admin = hasUser && "Super Admin".equals(me.getRole());
         cardUsers.setVisible(admin);
         cardUsers.setManaged(admin);
+
+        boolean superAdmin = Permissions.isSuperAdmin();
+        btnResetPin.setVisible(superAdmin);
+        btnResetPin.setManaged(superAdmin);
 
         tblUsers.setItems(FXCollections.observableArrayList(users));
         tblUsers.refresh();

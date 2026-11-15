@@ -1,18 +1,100 @@
+/* =====================================================================
+   SCAN PAGE  (replace the whole file)
+   ===================================================================== */
+
+/* ================= THE SCANNER CARD (always dark, like a camera app) ================= */
+.scanner-card {
+    -fx-background-color: #0b0b0e;
+    -fx-background-radius: 14;
+    -fx-border-color: #1f1f25;
+    -fx-border-radius: 14;
+    -fx-padding: 12;
+}
+.scan-preview {
+    -fx-background-color: #050507;
+    -fx-background-radius: 12;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 12;
+}
+.scan-placeholder { -fx-text-fill: #8a8a92; -fx-font-size: 14px; -fx-text-alignment: center; }
+
+/* small labels on top of the picture */
+.live-pill {
+    -fx-background-color: rgba(200, 20, 20, 0.88);
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 4 11 4 11;
+    -fx-background-radius: 12;
+}
+.top-pill { -fx-padding: 7 22 7 22; -fx-font-size: 13px; -fx-background-radius: 18; }
+.caption-pill {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-text-fill: #e6e6ea;
+    -fx-font-size: 13px;
+    -fx-padding: 6 16 6 16;
+    -fx-background-radius: 16;
+}
+
 /* ================= STATUS CHIP ================= */
 .scan-chip { -fx-font-size: 12px; -fx-font-weight: bold; -fx-padding: 5 12 5 12; -fx-background-radius: 14; }
-.chip-neutral { -fx-background-color: #26262c; -fx-text-fill: #d0d0d6; }
+.chip-neutral { -fx-background-color: rgba(38, 38, 44, 0.92); -fx-text-fill: #d0d0d6; }
 .chip-ok      { -fx-background-color: #0f3d22; -fx-text-fill: #34d399; }
 .chip-warn    { -fx-background-color: #3a2a08; -fx-text-fill: #fbbf24; }
 .chip-bad     { -fx-background-color: #3d1010; -fx-text-fill: #ff6b6b; }
 
-/* ================= CAMERA PREVIEW ================= */
-.scan-preview {
-    -fx-background-color: #050507;
+/* ================= ROUND BUTTONS + PILL (under the picture) ================= */
+.round-button {
+    -fx-background-color: #1d1d22;
+    -fx-background-insets: 0;
+    -fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-min-width: 56;
+    -fx-pref-width: 56;
+    -fx-min-height: 56;
+    -fx-pref-height: 56;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.round-button:hover    { -fx-background-color: #2a2a31; }
+.round-button:selected { -fx-background-color: #2576eb; }
+.round-label { -fx-text-fill: #b5b5bc; -fx-font-size: 12px; }
+
+.pill-button {
+    -fx-background-color: #1d1d22;
+    -fx-background-insets: 0;
+    -fx-background-radius: 22;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 11 28 11 28;
+    -fx-cursor: hand;
+}
+.pill-button:hover { -fx-background-color: #2a2a31; }
+
+/* ================= TABS: Scan | History | Settings ================= */
+.scan-tabs {
+    -fx-background-color: #131316;
     -fx-background-radius: 10;
     -fx-border-color: #26262c;
     -fx-border-radius: 10;
+    -fx-padding: 4;
 }
-.scan-placeholder { -fx-text-fill: #8a8a92; -fx-font-size: 14px; -fx-text-alignment: center; }
+.scan-tab {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-text-fill: #b5b5bc;
+    -fx-font-size: 13px;
+    -fx-padding: 9 12 9 12;
+    -fx-cursor: hand;
+}
+.scan-tab:hover { -fx-background-color: #1a1a1f; }
+.scan-tab:selected {
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
 
 /* ================= PLATE BOX ================= */
 .plate-input {
@@ -56,6 +138,8 @@
 .res-hint     { -fx-text-fill: #7a7a82; -fx-font-size: 12px; }
 .res-big-icon { -fx-font-size: 44px; -fx-text-fill: #3a3a42; }
 .res-error    { -fx-text-fill: #ff6b6b; -fx-font-size: 12px; }
+.res-red      { -fx-text-fill: #ff6b6b; -fx-font-weight: bold; }
+.res-green    { -fx-text-fill: #34d399; -fx-font-weight: bold; }
 
 .sugg-button {
     -fx-background-color: #0e0e11;
@@ -70,6 +154,20 @@
     -fx-cursor: hand;
 }
 .sugg-button:hover { -fx-border-color: #e11d1d; -fx-background-color: #1a1214; }
+
+/* ================= HISTORY ================= */
+.hist-row {
+    -fx-background-color: #0e0e11;
+    -fx-background-radius: 8;
+    -fx-border-color: #26262c;
+    -fx-border-radius: 8;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+}
+.hist-row:hover { -fx-border-color: #e11d1d; -fx-background-color: #1a1214; }
+.hist-plate { -fx-text-fill: white;   -fx-font-size: 15px; -fx-font-weight: bold; }
+.hist-sub   { -fx-text-fill: #9a9aa2; -fx-font-size: 12px; }
+.hist-time  { -fx-text-fill: #7a7a82; -fx-font-size: 11px; }
 
 /* ================= TESSERACT WARNING ================= */
 .warn-card {

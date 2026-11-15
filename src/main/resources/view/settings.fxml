@@ -204,6 +204,7 @@
                                         <Label styleClass="card-title" text="👥   User Accounts" />
                                         <Region HBox.hgrow="ALWAYS" />
                                         <Button fx:id="btnAddUser" onAction="#onAddUser" styleClass="set-button" text="＋   Add User" />
+                                        <Button fx:id="btnResetPin" onAction="#onResetPin" styleClass="outline-button" text="🔢   Reset PIN" />
                                     </children>
                                 </HBox>
                                 <Label styleClass="set-hint" text="Admin: full control. Receptionist: customers, bikes, service, billing. Mechanic: assigned jobs." wrapText="true" />

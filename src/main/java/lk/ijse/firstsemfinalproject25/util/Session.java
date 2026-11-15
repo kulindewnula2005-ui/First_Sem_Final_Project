@@ -1,13 +1,12 @@
 package lk.ijse.firstsemfinalproject25.util;
 
 import lk.ijse.firstsemfinalproject25.dto.UserDTO;
-import lk.ijse.firstsemfinalproject25.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-/** Who is using the application right now. */
+/** Who is using the application right now. The login screen must call Session.setUser(user). */
 public final class Session {
 
     private static UserDTO user;
@@ -19,7 +18,7 @@ public final class Session {
         return user;
     }
 
-    /** Set after login (or after the profile is edited). Listeners are told, e.g. the dashboard name label. */
+    /** Call after a successful login (and after the profile is edited). Listeners are told, e.g. the dashboard name label. */
     public static void setUser(UserDTO newUser) {
         synchronized (Session.class) {
             user = newUser;
@@ -29,33 +28,20 @@ public final class Session {
         }
     }
 
+    /** Call on logout. */
+    public static void clear() {
+        setUser(null);
+    }
+
     public static void addListener(Consumer<UserDTO> listener) {
         LISTENERS.add(listener);
     }
 
-    /** Until a login screen exists: the first Admin account (or the first account) counts as signed in. */
+    /**
+     * Kept so older code still compiles. It only returns the signed-in user: there is no automatic
+     * "first admin" fallback any more, because a login screen now decides who is signed in.
+     */
     public static UserDTO ensureUser() throws Exception {
-        synchronized (Session.class) {
-            if (user != null) {
-                return user;
-            }
-        }
-        List<UserDTO> all = new UserModel().getAllUsers();
-        UserDTO found = null;
-        for (UserDTO u : all) {
-            if ("Admin".equals(u.getRole())) {
-                found = u;
-                break;
-            }
-        }
-        if (found == null && !all.isEmpty()) {
-            found = all.get(0);
-        }
-        synchronized (Session.class) {
-            if (user == null) {
-                user = found;
-            }
-            return user;
-        }
+        return getUser();
     }
 }

@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.firstsemfinalproject25.dto.UserDTO;
 import lk.ijse.firstsemfinalproject25.model.UserModel;
+import lk.ijse.firstsemfinalproject25.util.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,23 +133,35 @@ public class LoginController implements Initializable {
         else prefs.remove(PREF_USER);
     }
 
-    /* ---------- go to the dashboard ---------- */
+    /* ---------- go to the dashboard (Super Admin gets the Admin Dashboard) ---------- */
     private void openDashboard(UserDTO user) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/DashboardPage.fxml"));
+            Session.login(user);
+            boolean superAdmin = UserModel.SUPER_ADMIN.equals(user.getRole());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    superAdmin ? "/view/adminDashboard.fxml" : "/view/DashboardPage.fxml"));
             Parent root = loader.load();
 
-            DashboardController dash = loader.getController();
-            dash.setUser(user.getFullName(), user.getRole());
+            Runnable stopTimers;
+            if (superAdmin) {
+                AdminDashboardController admin = loader.getController();
+                admin.setUser(user.getFullName(), user.getRole());
+                stopTimers = admin::stop;
+            } else {
+                DashboardController dash = loader.getController();
+                dash.setUser(user.getFullName(), user.getRole());
+                stopTimers = dash::stop;
+            }
 
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Bike Garage Management System");
+            stage.setTitle(superAdmin ? "Bike Garage - Super Admin" : "Bike Garage Management System");
             stage.setResizable(true);
             stage.setMinWidth(1100);
             stage.setMinHeight(650);
             stage.centerOnScreen();
-            stage.setOnHidden(ev -> dash.stop());
+            stage.setOnHidden(ev -> stopTimers.run());
         } catch (IOException ex) {
             ex.printStackTrace();
             showMessage("Could not open the dashboard.", false);

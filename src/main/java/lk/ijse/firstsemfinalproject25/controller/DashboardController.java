@@ -12,13 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
@@ -39,6 +33,20 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
+    public Button btnScan;
+    public Button btnNewService;
+    public Button btnAddCustomer;
+    public Button btnAddBike;
+    public ToggleButton btnDsh;
+    public ToggleButton btnCustomer;
+    public ToggleButton btnBike;
+    public ToggleButton btnService;
+    public ToggleButton btnMechanic;
+    public ToggleButton btnSpareParts;
+    public ToggleButton btnPayments;
+    public ToggleButton btnReports;
+    public ToggleButton btnSettings;
+    public Button btnBell;
     /* ---------- layout ---------- */
     @FXML private StackPane contentArea;
     @FXML private VBox dashboardPane;

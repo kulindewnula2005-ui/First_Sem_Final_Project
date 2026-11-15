@@ -76,7 +76,7 @@ public class SignUpController implements Initializable {
         };
         task.setOnSucceeded(e -> {
             if (task.getValue()) {
-                cmbRole.getItems().setAll("Admin");
+                cmbRole.getItems().setAll(UserModel.SUPER_ADMIN);
                 cmbRole.getSelectionModel().selectFirst();
                 cmbRole.setDisable(true);
             }
@@ -209,7 +209,7 @@ public class SignUpController implements Initializable {
 
     private void goToLogin(String username, String message) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LoginPage.fxml"));
             Parent root = loader.load();
             if (username != null) {
                 LoginController login = loader.getController();

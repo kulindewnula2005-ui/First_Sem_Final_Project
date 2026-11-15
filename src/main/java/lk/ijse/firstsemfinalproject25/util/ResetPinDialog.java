@@ -37,6 +37,7 @@ import java.util.List;
 public class ResetPinDialog {
 
     private final Window owner;
+    private final String preselectUserId;   // optional: open with this user already chosen
     private final UserModel userModel = new UserModel();
     private final PasswordResetModel resetModel = new PasswordResetModel();
 
@@ -52,7 +53,12 @@ public class ResetPinDialog {
     private String currentPin;
 
     public ResetPinDialog(Window owner) {
+        this(owner, null);
+    }
+
+    public ResetPinDialog(Window owner, String preselectUserId) {
         this.owner = owner;
+        this.preselectUserId = preselectUserId;
     }
 
     public void show() {
@@ -117,9 +123,19 @@ public class ResetPinDialog {
         try {
             List<String> items = new ArrayList<>();
             for (UserDTO u : userModel.getAllUsers()) {
+                if (UserModel.SUPER_ADMIN.equals(u.getRole())) {
+                    continue;                      // the Super Admin cannot be reset with a PIN
+                }
                 items.add(u.getUserId() + " - " + u.getUsername() + " (" + u.getRole() + ")");
             }
             cmbUser.setItems(FXCollections.observableArrayList(items));
+            if (preselectUserId != null) {
+                for (String item : items) {
+                    if (item.startsWith(preselectUserId + " - ")) {
+                        cmbUser.setValue(item);
+                    }
+                }
+            }
         } catch (Exception ex) {
             showMessage("Could not load users: " + ex.getMessage(), true);
         }

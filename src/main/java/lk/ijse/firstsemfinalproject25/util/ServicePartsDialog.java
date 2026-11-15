@@ -26,6 +26,7 @@ import lk.ijse.firstsemfinalproject25.dto.SparePartsDTO;
 import lk.ijse.firstsemfinalproject25.dto.tm.ServicePartsTM;
 import lk.ijse.firstsemfinalproject25.dto.tm.ServiceRequestTM;
 import lk.ijse.firstsemfinalproject25.model.ServicePartsModel;
+import lk.ijse.firstsemfinalproject25.model.ServiceRequestModel;
 import lk.ijse.firstsemfinalproject25.model.SparePartsModel;
 
 import java.net.URL;
@@ -42,11 +43,11 @@ import java.util.List;
  * All stock work is done by ServicePartsModel (one transaction per action).
  * A completed or billed job is read-only.
  */
-public class ServicePartDialog {
+public class ServicePartsDialog {
 
     private final Window owner;
     private final ServiceRequestTM job;
-    private boolean locked = false;
+    private final boolean locked;
 
     private final ServicePartsModel servicePartsModel = new ServicePartsModel();
     private final SparePartsModel sparePartsModel = new SparePartsModel();
@@ -61,11 +62,10 @@ public class ServicePartDialog {
     private final Label lblTotal = new Label();
     private final TableView<ServicePartsTM> table = new TableView<>();
 
-
-    public ServicePartDialog(Window owner, ServiceRequestTM job) {
+    public ServicePartsDialog(Window owner, ServiceRequestTM job) {
         this.owner = owner;
         this.job = job;
-        this.locked = locked;
+        this.locked = ServiceRequestModel.COMPLETED.equals(job.getStatus());
     }
 
     /* ======================= build + show ======================= */
@@ -95,6 +95,12 @@ public class ServicePartDialog {
             content.getChildren().add(note);
         } else {
             content.getChildren().addAll(buildAddRow(), lblStock);
+            if (!Session.isSuperAdmin()) {
+                Label rule = new Label("Anyone can add a part. Only the Super Admin can change or remove one.");
+                rule.getStyleClass().add("info-value");
+                rule.setWrapText(true);
+                content.getChildren().add(rule);
+            }
         }
 
         lblMessage.setWrapText(true);
@@ -159,6 +165,7 @@ public class ServicePartDialog {
 
         TableColumn<ServicePartsTM, Void> cAct = new TableColumn<>("Actions");
         cAct.setSortable(false);
+        cAct.setVisible(Session.isSuperAdmin() && !locked);   // update / remove = Super Admin only
         cAct.setCellFactory(col -> new TableCell<>() {
             private final Button btnEdit = new Button("✎");
             private final Button btnRemove = new Button("🗑");

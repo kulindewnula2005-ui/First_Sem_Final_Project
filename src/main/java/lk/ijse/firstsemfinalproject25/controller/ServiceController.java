@@ -40,7 +40,7 @@ import lk.ijse.firstsemfinalproject25.model.ServiceRequestModel;
 import lk.ijse.firstsemfinalproject25.util.SearchPopup;
 
 import javafx.scene.control.Tooltip;
-import lk.ijse.firstsemfinalproject25.util.ServicePartDialog;
+import lk.ijse.firstsemfinalproject25.util.ServicePartsDialog;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -367,7 +367,7 @@ public class ServiceController implements Initializable {
                 btnDelete.getStyleClass().addAll("action-button", "delete-button");
                 box.setAlignment(Pos.CENTER_LEFT);
 
-                btnParts.setOnAction(e -> new ServicePartDialog(
+                btnParts.setOnAction(e -> new ServicePartsDialog(
                         tblService.getScene().getWindow(),
                         getTableView().getItems().get(getIndex())).show());
                 btnEdit.setOnAction(e -> openUpdate(getTableView().getItems().get(getIndex())));

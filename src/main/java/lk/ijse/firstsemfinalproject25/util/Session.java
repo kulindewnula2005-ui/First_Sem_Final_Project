@@ -24,6 +24,10 @@ public final class Session {
     public static void logout() { currentUser = null; }
 
 
+    public static void removeListener(Consumer<UserDTO> listener) {
+        LISTENERS.remove(listener);
+    }
+
     public static boolean isSuperAdmin() {
         return currentUser != null && UserModel.SUPER_ADMIN.equals(currentUser.getRole());
     }
@@ -40,9 +44,9 @@ public final class Session {
         synchronized (Session.class) {
             currentUser = newUser;
         }
-        for (Consumer<UserDTO> listener : new ArrayList<>(LISTENERS)) {
-            listener.accept(newUser);
-        }
+//        for (Consumer<UserDTO> listener : new ArrayList<>(LISTENERS)) {
+//            listener.accept(newUser);
+//        }
     }
 
     /** Call on logout. */

@@ -543,7 +543,7 @@ public class SparePartsController implements Initializable {
     }
 
     private void styleDialog(DialogPane pane) {
-        for (String file : new String[]{"/styles/bike.css", "/styles/spareparts.css"}) {
+        for (String file : new String[]{ "/styles/spareParts.css"}) {
             URL css = getClass().getResource(file);
             if (css != null) {
                 pane.getStylesheets().add(css.toExternalForm());

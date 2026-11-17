@@ -701,7 +701,7 @@ public class ServiceController implements Initializable {
     }
 
     private void styleDialog(DialogPane pane) {
-        URL css = getClass().getResource("/styles/bike.css");
+        URL css = getClass().getResource("/styles/service.css");
         if (css != null) {
             pane.getStylesheets().add(css.toExternalForm());
         }

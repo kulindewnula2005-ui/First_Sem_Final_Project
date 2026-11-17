@@ -24,7 +24,15 @@ import lk.ijse.firstsemfinalproject25.model.DashboardModel;
 import lk.ijse.firstsemfinalproject25.model.DashboardModel.DashboardData;
 import lk.ijse.firstsemfinalproject25.model.DashboardModel.JobRow;
 import lk.ijse.firstsemfinalproject25.util.AppNavigator;
+import lk.ijse.firstsemfinalproject25.util.PinRequestsDialog;
 import lk.ijse.firstsemfinalproject25.util.Session;
+import javafx.scene.control.Button;
+import lk.ijse.firstsemfinalproject25.util.Permissions;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
+import java.util.function.Consumer;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -77,6 +85,7 @@ public class DashboardController implements Initializable {
     @FXML private TableColumn<JobRow, String> colStatus;
     @FXML private TableColumn<JobRow, String> colDate;
 
+    private Consumer<UserDTO> sessionListener;
     private final DashboardModel dashboardModel = new DashboardModel();
 
     private Timeline clockTimeline;
@@ -146,6 +155,11 @@ public class DashboardController implements Initializable {
             return;
         }
 
+        if (!allowed(page)) {
+            showPageMessage("🔒  You do not have access to the " + page + " page.", true);
+            return;
+        }
+
         URL url = getClass().getResource("/view/" + page + ".fxml");
         if (url == null) {
             showPageMessage(page.toUpperCase() + " page coming soon\n"
@@ -178,6 +192,13 @@ public class DashboardController implements Initializable {
 
     /** Highlights a sidebar button (when the page has one) and opens the page. */
     private void selectNav(String id) {
+
+        if (!allowed(id)) {
+            openPage(id);      // shows the "no access" message
+            return;
+        }
+
+
         for (Toggle t : navGroup.getToggles()) {
             if (id.equals(((ToggleButton) t).getId())) {
                 t.setSelected(true);
@@ -223,29 +244,64 @@ public class DashboardController implements Initializable {
 
     /* ---------- signed-in user ---------- */
     private void setupUser() {
-        // whenever the user changes (for example a profile edit on the Settings page) the labels follow
+        // when the user changes (login, profile edit) the labels and the allowed pages follow
         Session.addListener(u -> {
             if (u != null) {
                 setUser(u.getFullName(), u.getRole());
             }
+            applyRole();
         });
-        setUser("Admin", "Administrator");   // shown until the real user is loaded
 
-        Task<UserDTO> task = new Task<>() {
-            @Override
-            protected UserDTO call() throws Exception {
-                return Session.ensureUser();
-            }
-        };
-        task.setOnSucceeded(e -> {
-            UserDTO user = task.getValue();
-            if (user != null) {
-                setUser(user.getFullName(), user.getRole());
-            }
-        });
-        Thread t = new Thread(task, "dashboard-user");
-        t.setDaemon(true);
-        t.start();
+        Session.addListener(sessionListener);
+
+        UserDTO current = Session.getUser();
+        if (current != null) {
+            setUser(current.getFullName(), current.getRole());
+        } else {
+            setUser("Not signed in", "-");
+        }
+        applyRole();
+    }
+
+    /** The dashboard is always allowed; every other page follows Permissions.canOpenPage. */
+    private boolean allowed(String page) {
+        return "dashboard".equals(page) || Permissions.canOpenPage(page);
+    }
+
+    /** Hides the sidebar buttons, quick actions and links this role may not use. */
+    private void applyRole() {
+        for (Toggle t : navGroup.getToggles()) {
+            ToggleButton button = (ToggleButton) t;
+            boolean ok = allowed(button.getId());
+            button.setVisible(ok);
+            button.setManaged(ok);
+        }
+
+        setShown(btnScan, allowed("scan"));
+        setShown(btnNewService, allowed("service"));
+        setShown(btnAddCustomer, allowed("customer"));
+        setShown(btnAddBike, allowed("bike"));
+        setShown(btnSpareParts, allowed("spare_part"));
+
+        // "View Details" / "View All" open the Service page
+        boolean service = allowed("service");
+        for (Node link : dashboardPane.lookupAll(".detail-link")) {
+            link.setVisible(service);
+            link.setManaged(service);
+        }
+
+        // if the highlighted page is no longer allowed, go back to the dashboard
+        ToggleButton selected = (ToggleButton) navGroup.getSelectedToggle();
+        if (selected != null && !selected.isVisible()) {
+            selectNav("dashboard");
+        }
+    }
+
+    private void setShown(Node node, boolean shown) {
+        if (node != null) {
+            node.setVisible(shown);
+            node.setManaged(shown);
+        }
     }
 
     public void setUser(String name, String role) {
@@ -314,8 +370,61 @@ public class DashboardController implements Initializable {
 
     /* ---------- button actions ---------- */
     @FXML private void onViewDetails(ActionEvent e)       { selectNav("service"); }
-    @FXML private void onBell(ActionEvent e)              { /* TODO: show notifications */ }
-    @FXML private void onLogout(ActionEvent e)            { /* TODO: go back to the login screen */ }
+
+    @FXML
+    private void onBell(ActionEvent e) {
+        if (Permissions.isSuperAdmin()) {
+            new PinRequestsDialog(contentArea.getScene().getWindow()).show();
+        } else {
+            UserDTO currentUser = Session.getUser();
+            if (currentUser == null) return;
+
+            // Fetch active PIN for this specific user from the database
+            String activePin = dashboardModel.getPendingPinForUser(currentUser.getUserId());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Password Reset Notification");
+            alert.setHeaderText("🔑 Password Reset PIN");
+
+            if (activePin != null && !activePin.isEmpty()) {
+                alert.setContentText("The Super Admin generated a password reset PIN for you:\n\n"
+                        + "PIN: " + activePin + "\n\n"
+                        + "This PIN is valid for 15 minutes.");
+            } else {
+                alert.setContentText("You have no active password reset PINs right now.");
+            }
+
+            alert.showAndWait();
+        }
+    }
+
+
+    @FXML
+    private void onLogout(ActionEvent e) {
+        Stage stage = (Stage) contentArea.getScene().getWindow();
+        try {
+            // load the login page first: if it cannot be opened, the person stays signed in
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
+            Parent login = loader.load();
+
+            stop();                          // timers + session listener
+            AppNavigator.setHandler(null);
+            Session.clear();                 // nobody is signed in any more
+
+            stage.setMaximized(false);
+            stage.setMinWidth(0);
+            stage.setMinHeight(0);
+            stage.getScene().setRoot(login);
+            stage.setTitle("Bike Garage - Login");
+            stage.sizeToScene();
+            stage.centerOnScreen();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            showPageMessage("Could not logout: " + ex.getMessage(), true);
+        }
+    }
+
 
     @FXML
     private void onScanPlate(ActionEvent e) {
@@ -334,6 +443,10 @@ public class DashboardController implements Initializable {
         }
         if (refreshTimeline != null) {
             refreshTimeline.stop();
+        }
+        if (sessionListener != null) {
+            Session.removeListener(sessionListener);
+            sessionListener = null;
         }
     }
 }

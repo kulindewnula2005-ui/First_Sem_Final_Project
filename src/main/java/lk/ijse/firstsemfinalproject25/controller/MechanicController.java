@@ -511,7 +511,7 @@ public class MechanicController implements Initializable {
     }
 
     private void styleDialog(DialogPane pane) {
-        for (String file : new String[]{"/styles/bike.css", "/styles/mechanic.css"}) {
+        for (String file : new String[]{ "/styles/mechanic.css"}) {
             URL css = getClass().getResource(file);
             if (css != null) {
                 pane.getStylesheets().add(css.toExternalForm());

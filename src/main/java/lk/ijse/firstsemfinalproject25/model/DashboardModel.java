@@ -1,8 +1,12 @@
 package lk.ijse.firstsemfinalproject25.model;
 
+import lk.ijse.firstsemfinalproject25.db.DBConnection;
 import lk.ijse.firstsemfinalproject25.util.CrudUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +69,28 @@ public class DashboardModel {
             ResultSet rs = CrudUtil.execute(sql, params);
             return rs.next() ? rs.getInt(1) : 0;
         }
+
+    public String getPendingPinForUser(String userId) {
+        String pin = null;
+        String query = "SELECT pin_hash FROM password_reset WHERE user_id = ? AND expires_at > NOW()";
+
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            try (PreparedStatement pst = conn.prepareStatement(query)) {
+
+                pst.setString(1, userId);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        // Simply fetch the column value directly as the plain PIN
+                        pin = rs.getString("pin_hash");
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pin;
+    }
     }
 

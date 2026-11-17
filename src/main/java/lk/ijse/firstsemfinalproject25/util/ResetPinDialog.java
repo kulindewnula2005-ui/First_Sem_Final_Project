@@ -54,6 +54,7 @@ public class ResetPinDialog {
 
     public ResetPinDialog(Window owner) {
         this(owner, null);
+
     }
 
     public ResetPinDialog(Window owner, String preselectUserId) {

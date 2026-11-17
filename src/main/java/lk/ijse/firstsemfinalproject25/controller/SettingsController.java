@@ -825,7 +825,7 @@ public class SettingsController implements Initializable {
     }
 
     private void styleDialog(DialogPane pane) {
-        for (String file : new String[]{"/styles/bike.css", "/styles/settings.css"}) {
+        for (String file : new String[]{ "/styles/settings.css"}) {
             URL css = getClass().getResource(file);
             if (css != null) {
                 pane.getStylesheets().add(css.toExternalForm());

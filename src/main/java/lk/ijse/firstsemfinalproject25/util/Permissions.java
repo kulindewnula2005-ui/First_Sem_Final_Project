@@ -2,12 +2,16 @@ package lk.ijse.firstsemfinalproject25.util;
 
 import lk.ijse.firstsemfinalproject25.dto.UserDTO;
 
+import java.util.Set;
+
 /**
  * Who may do what.
  *   - Everybody who is signed in can ADD records.
  *   - Only the Super Admin can UPDATE and DELETE records.
  */
 public final class Permissions {
+
+    private Permissions() { }
 
     public static final String SUPER_ADMIN = "Super Admin";
     public static final String RECEPTIONIST = "Receptionist";
@@ -20,7 +24,38 @@ public final class Permissions {
      */
     public static final boolean JOB_PROGRESS_FOR_ALL = true;
 
-    private Permissions() { }
+    /**
+     * Pages each role may open. The names are the ids of the sidebar buttons
+     * (dashboard, customer, bike, service, mechanic, spare_part, billing, reports, settings),
+     * plus "scan" (the Scan Number Plate page, opened from the dashboard).
+     * Super Admin and Admin may open every page.
+     */
+    private static final Set<String> MECHANIC_PAGES =
+            Set.of("dashboard", "bike", "service", "mechanic", "settings", "scan");
+
+    private static final Set<String> RECEPTIONIST_PAGES =
+            Set.of("dashboard", "customer", "bike", "billing", "settings", "scan");
+
+
+
+    /** true when the signed-in user may open this page (use the sidebar button id as the page name). */
+    public static boolean canOpenPage(String page) {
+        String role = currentRole();
+        if (role == null || page == null) {
+            return false;
+        }
+        if (SUPER_ADMIN.equals(role)) {
+            return true;
+        }
+        if (MECHANIC.equals(role)) {
+            return MECHANIC_PAGES.contains(page);
+        }
+        if (RECEPTIONIST.equals(role)) {
+            return RECEPTIONIST_PAGES.contains(page);
+        }
+        return false;
+    }
+
 
     public static String currentRole() {
         UserDTO user = Session.getUser();
@@ -34,16 +69,6 @@ public final class Permissions {
     public static boolean isAdminOrAbove() {
         String role = currentRole();
         return SUPER_ADMIN.equals(role);
-    }
-
-    /** Show / allow the edit icons. */
-    public static boolean canUpdate() {
-        return isSuperAdmin();
-    }
-
-    /** Show / allow the delete icons. */
-    public static boolean canDelete() {
-        return isSuperAdmin();
     }
 
     /** Assign a mechanic / change a job's status. */

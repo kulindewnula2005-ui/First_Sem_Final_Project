@@ -240,7 +240,7 @@ public class QuickAddDialogsService  {
     }
 
     private static void style(DialogPane pane) {
-        URL css = QuickAddDialogsService.class.getResource("/styles/bike.css");
+        URL css = QuickAddDialogsService.class.getResource("/styles/service.css");
         if (css != null) {
             pane.getStylesheets().add(css.toExternalForm());
         }

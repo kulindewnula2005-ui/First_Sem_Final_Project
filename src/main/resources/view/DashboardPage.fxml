@@ -51,7 +51,7 @@
                 <ToggleButton id="mechanic" fx:id="btnMechanic" maxWidth="Infinity" onAction="#onNav" styleClass="nav-button" text="Mechanic" toggleGroup="$navGroup">
                     <graphic><Label styleClass="nav-icon" text="👷" /></graphic>
                 </ToggleButton>
-                <ToggleButton id="spareparts" fx:id="btnSpareParts" maxWidth="Infinity" onAction="#onNav" styleClass="nav-button" text="Spare Parts" toggleGroup="$navGroup">
+                <ToggleButton id="spareParts" fx:id="btnSpareParts" maxWidth="Infinity" onAction="#onNav" styleClass="nav-button" text="Spare Parts" toggleGroup="$navGroup">
                     <graphic><Label styleClass="nav-icon" text="⚙" /></graphic>
                 </ToggleButton>
                 <ToggleButton id="billing" fx:id="btnPayments" maxWidth="Infinity" onAction="#onNav" styleClass="nav-button" text="Billing" toggleGroup="$navGroup">

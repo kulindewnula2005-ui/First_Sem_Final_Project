@@ -36,6 +36,7 @@ import javafx.util.Duration;
 import lk.ijse.firstsemfinalproject25.dto.UserDTO;
 import lk.ijse.firstsemfinalproject25.model.PasswordResetModel;
 import lk.ijse.firstsemfinalproject25.model.UserModel;
+import lk.ijse.firstsemfinalproject25.util.PinRequestsDialog;
 import lk.ijse.firstsemfinalproject25.util.ResetPinDialog;
 import lk.ijse.firstsemfinalproject25.util.Session;
 import lk.ijse.firstsemfinalproject25.util.UserFormDialog;
@@ -433,10 +434,19 @@ public class AdminDashboardController implements Initializable {
     }
 
     private void styleDialog(DialogPane pane) {
-        URL css = getClass().getResource("/styles/bike.css");
+        URL css = getClass().getResource("/styles/admin.css");
         if (css != null) {
             pane.getStylesheets().add(css.toExternalForm());
         }
         pane.getStyleClass().add("dark-dialog");
+    }
+
+    @FXML
+    void btnPinRequestsOnAction(ActionEvent event) {
+        // Get the current window to act as the dialog's owner
+        Window owner = ((Node) event.getSource()).getScene().getWindow();
+
+        // Open the live PIN Requests inbox
+        new PinRequestsDialog(owner).show();
     }
 }

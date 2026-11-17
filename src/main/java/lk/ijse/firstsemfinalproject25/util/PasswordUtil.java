@@ -5,6 +5,14 @@ import java.security.MessageDigest;
 
 public class PasswordUtil {
 
+    public record PinRequest(
+            String userId,
+            String fullName,
+            String username,
+            String role,
+            int minutesAgo
+    ) {}
+
     public static String hash(String rawPassword) throws Exception {
 
         MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -22,5 +30,6 @@ public class PasswordUtil {
                 hash(plain).getBytes(StandardCharsets.UTF_8),
                 storedHash.toLowerCase().getBytes(StandardCharsets.UTF_8));
     }
+
 
 }

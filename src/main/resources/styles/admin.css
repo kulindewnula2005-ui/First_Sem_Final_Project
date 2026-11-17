@@ -1,140 +1,248 @@
-/* ===== Super Admin dashboard - extra styles (loaded AFTER dashboard.css) ===== */
+/* =====================================================================
+   SUPER ADMIN DASHBOARD - user profile cards  (loaded AFTER dashboard.css)
+   Same class names as before, so no Java or FXML change is needed.
+   Colours follow the system theme: page #0a0a0c, card #131316, border #26262c, red #e11d1d.
+   ===================================================================== */
 
+/* ---------- "SUPER ADMIN" badge in the header ---------- */
 .super-badge {
-    -fx-background-color: linear-gradient(to right, #f59e0b, #ef4444);
+    -fx-background-color: linear-gradient(to right, #f59e0b, #dc2626);
     -fx-text-fill: white;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
-    -fx-padding: 3px 12px;
-    -fx-background-radius: 10px;
+    -fx-padding: 4 13 4 13;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(220,38,38,0.35), 8, 0.1, 0, 2);
 }
 
 /* ---------- search / filter / header buttons ---------- */
 .admin-search {
-    -fx-background-color: #19191c;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #6b6b72;
-    -fx-padding: 7px 12px;
-    -fx-background-radius: 8px;
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-border-color: #2a2a30;
-    -fx-border-radius: 8px;
+    -fx-border-radius: 8;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #7a7a82;
+    -fx-highlight-fill: #e11d1d;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-font-size: 13px;
+    -fx-padding: 8 12 8 12;
 }
-.admin-search:focused { -fx-border-color: #E8141C; }
+.admin-search:focused { -fx-border-color: #e11d1d; }
 
 .admin-combo {
-    -fx-background-color: #19191c;
-    -fx-background-radius: 8px;
+    -fx-background-color: #0e0e11;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-border-color: #2a2a30;
-    -fx-border-radius: 8px;
+    -fx-border-radius: 8;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
+.admin-combo:focused { -fx-border-color: #e11d1d; }
 .admin-combo .list-cell { -fx-text-fill: white; -fx-background-color: transparent; }
 .admin-combo .arrow-button { -fx-background-color: transparent; }
-.admin-combo .arrow { -fx-background-color: #8a8a90; }
-.combo-box-popup .list-view { -fx-background-color: #19191c; -fx-border-color: #2a2a30; }
-.combo-box-popup .list-cell { -fx-background-color: #19191c; -fx-text-fill: white; }
-.combo-box-popup .list-cell:hover,
-.combo-box-popup .list-cell:filled:selected { -fx-background-color: #E8141C; }
+.admin-combo .arrow { -fx-background-color: #b5b5bc; }
+
+.combo-box-popup .list-view { -fx-background-color: #131316; -fx-border-color: #2a2a30; }
+.combo-box-popup .list-cell { -fx-background-color: #131316; -fx-text-fill: white; }
+.combo-box-popup .list-cell:hover { -fx-background-color: #2a1012; }
+.combo-box-popup .list-cell:filled:selected { -fx-background-color: #e11d1d; -fx-text-fill: white; }
 
 .top-primary {
-    -fx-background-color: linear-gradient(to right, #E8141C, #B30000);
+    -fx-background-color: linear-gradient(to right, #d41818, #f02525);
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-padding: 8px 16px;
-    -fx-background-radius: 8px;
+    -fx-font-size: 13px;
+    -fx-padding: 9 18 9 18;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.40), 10, 0.2, 0, 2);
 }
-.top-primary:hover   { -fx-background-color: linear-gradient(to right, #ff2a32, #cc0000); }
-.top-primary:pressed { -fx-background-color: red; }
+.top-primary:hover   { -fx-background-color: linear-gradient(to right, #e32020, #ff3030); }
+.top-primary:pressed { -fx-background-color: #b81414; }
 
 .top-button {
-    -fx-background-color: #1f1f23;
+    -fx-background-color: #131316;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: #2a2a30;
+    -fx-border-radius: 8;
     -fx-text-fill: white;
-    -fx-padding: 8px 16px;
-    -fx-background-radius: 8px;
+    -fx-font-size: 13px;
+    -fx-padding: 9 16 9 16;
     -fx-cursor: hand;
 }
-.top-button:hover   { -fx-background-color: #2a2a30; }
-.top-button:pressed { -fx-background-color: red; }
+.top-button:hover   { -fx-border-color: #e11d1d; -fx-background-color: #1a1214; }
+.top-button:pressed { -fx-background-color: #2a1012; }
 
 /* ---------- card area ---------- */
-.cards-scroll { -fx-background: transparent; -fx-background-color: transparent; }
+.cards-scroll { -fx-background: transparent; -fx-background-color: transparent; -fx-padding: 0; }
 .cards-scroll > .viewport { -fx-background-color: transparent; }
+.cards-scroll .corner { -fx-background-color: transparent; }
+.cards-scroll .scroll-bar { -fx-background-color: transparent; }
+.cards-scroll .scroll-bar .thumb { -fx-background-color: #3a3a42; -fx-background-radius: 4; }
+.cards-scroll .scroll-bar .increment-button,
+.cards-scroll .scroll-bar .decrement-button { -fx-padding: 0; -fx-pref-height: 0; -fx-pref-width: 0; }
 .cards-pane { -fx-background-color: transparent; }
-.empty-text { -fx-text-fill: #8a8a90; -fx-font-size: 13px; }
+.empty-text { -fx-text-fill: #7a7a82; -fx-font-size: 13px; }
 
 /* ---------- user profile card ---------- */
 .user-card {
-    -fx-background-color: #151518;
-    -fx-background-radius: 14px;
-    -fx-border-color: #26262b;
-    -fx-border-radius: 14px;
-    -fx-padding: 16px;
-    -fx-pref-width: 210px;
-    -fx-min-width: 210px;
-    -fx-max-width: 210px;
+    /* a 1px border drawn as a second background layer: crisp on every screen */
+    -fx-background-color: #26262c, #131316;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 15, 14;
+    -fx-padding: 18 16 16 16;
+    -fx-pref-width: 210;
+    -fx-min-width: 210;
+    -fx-max-width: 210;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.40), 10, 0.0, 0, 3);
 }
 .user-card:hover {
-    -fx-border-color: #E8141C;
-    -fx-effect: dropshadow(three-pass-box, rgba(232,20,28,0.30), 12, 0, 0, 2);
+    -fx-background-color: #e11d1d, #17171b;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.30), 16, 0.1, 0, 4);
 }
-.user-card-me { -fx-border-color: #f59e0b; }
 
+/* the account that is signed in: a red gradient edge */
+.user-card-me {
+    -fx-background-color: linear-gradient(to bottom, #e11d1d, #5c0d0d), #131316;
+    -fx-background-insets: 0, 1.5;
+    -fx-background-radius: 15, 13.5;
+}
+.user-card-me:hover {
+    -fx-background-color: linear-gradient(to bottom, #ff3030, #7a1010), #17171b;
+    -fx-background-insets: 0, 1.5;
+    -fx-background-radius: 15, 13.5;
+}
+
+/* ---------- avatar: a coloured ring around a dark disc with the initials ---------- */
 .avatar-circle {
-    -fx-min-width: 64px;  -fx-pref-width: 64px;  -fx-max-width: 64px;
-    -fx-min-height: 64px; -fx-pref-height: 64px; -fx-max-height: 64px;
-    -fx-background-radius: 32px;
+    -fx-min-width: 68;  -fx-pref-width: 68;  -fx-max-width: 68;
+    -fx-min-height: 68; -fx-pref-height: 68; -fx-max-height: 68;
+    -fx-background-insets: 0, 2.5;
+    -fx-background-radius: 34, 31.5;
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
 }
-.avatar-super        { -fx-background-color: linear-gradient(to bottom right, #f59e0b, #ef4444); }
-.avatar-admin        { -fx-background-color: linear-gradient(to bottom right, #7c3aed, #a855f7); }
-.avatar-receptionist { -fx-background-color: linear-gradient(to bottom right, #2563eb, #3b82f6); }
-.avatar-mechanic     { -fx-background-color: linear-gradient(to bottom right, #16a34a, #22c55e); }
-.avatar-other        { -fx-background-color: #52525b; }
+.avatar-super        { -fx-background-color: #f59e0b, #2a2010; -fx-text-fill: #fbbf24; }
+.avatar-admin        { -fx-background-color: #a855f7, #221a30; -fx-text-fill: #d8b4fe; }
+.avatar-receptionist { -fx-background-color: #3b82f6, #152033; -fx-text-fill: #93c5fd; }
+.avatar-mechanic     { -fx-background-color: #22c55e, #14261b; -fx-text-fill: #86efac; }
+.avatar-other        { -fx-background-color: #52525b, #222226; -fx-text-fill: #d4d4d8; }
 
+/* ---------- text ---------- */
 .card-name     { -fx-text-fill: white;   -fx-font-size: 14px; -fx-font-weight: bold; }
-.card-username { -fx-text-fill: #8a8a90; -fx-font-size: 11px; }
-.card-id       { -fx-text-fill: #5c5c63; -fx-font-size: 10px; }
+.card-username { -fx-text-fill: #9a9aa2; -fx-font-size: 12px; }
+.card-id {
+    -fx-text-fill: #7a7a82;
+    -fx-font-size: 10px;
+    -fx-background-color: #1b1b20;
+    -fx-background-radius: 6;
+    -fx-padding: 2 8 2 8;
+}
 
+/* ---------- role badge: a hairline-bordered pill in the role colour ---------- */
 .role-badge {
     -fx-font-size: 10px;
     -fx-font-weight: bold;
-    -fx-padding: 3px 10px;
-    -fx-background-radius: 10px;
+    -fx-padding: 3 11 3 11;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 11, 10;
 }
-.role-super        { -fx-background-color: rgba(245,158,11,0.18);  -fx-text-fill: #fbbf24; }
-.role-admin        { -fx-background-color: rgba(168,85,247,0.18);  -fx-text-fill: #c4b5fd; }
-.role-receptionist { -fx-background-color: rgba(59,130,246,0.18);  -fx-text-fill: #93c5fd; }
-.role-mechanic     { -fx-background-color: rgba(34,197,94,0.18);   -fx-text-fill: #86efac; }
-.role-other        { -fx-background-color: #2a2a30;                -fx-text-fill: #cfcfd4; }
+.role-super        { -fx-background-color: #7a5410, #2a2010; -fx-text-fill: #fbbf24; }
+.role-admin        { -fx-background-color: #5b3a9e, #221a30; -fx-text-fill: #d8b4fe; }
+.role-receptionist { -fx-background-color: #25508f, #152033; -fx-text-fill: #93c5fd; }
+.role-mechanic     { -fx-background-color: #1f6b3a, #14261b; -fx-text-fill: #86efac; }
+.role-other        { -fx-background-color: #3a3a42, #222226; -fx-text-fill: #d4d4d8; }
 
+/* ---------- small chips ---------- */
 .pin-chip {
-    -fx-background-color: rgba(240,152,25,0.18);
+    -fx-background-color: #7a5410, #2a2010;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 9, 8;
     -fx-text-fill: #fbbf24;
     -fx-font-size: 10px;
-    -fx-padding: 2px 8px;
-    -fx-background-radius: 8px;
+    -fx-padding: 2 9 2 9;
 }
 .you-chip {
-    -fx-background-color: rgba(245,158,11,0.25);
-    -fx-text-fill: #fde68a;
+    -fx-background-color: #7a1d1d, #2e1214;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 9, 8;
+    -fx-text-fill: #ff9a9a;
     -fx-font-size: 10px;
     -fx-font-weight: bold;
-    -fx-padding: 2px 8px;
-    -fx-background-radius: 8px;
+    -fx-padding: 2 9 2 9;
 }
 
+/* ---------- card action buttons ---------- */
 .mini-button {
-    -fx-background-color: #1f1f23;
-    -fx-text-fill: white;
+    -fx-background-color: #2a2a30, #1b1b20;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 9, 8;
+    -fx-text-fill: #e6e6ea;
     -fx-font-size: 12px;
-    -fx-padding: 5px 10px;
-    -fx-background-radius: 8px;
+    -fx-padding: 6 11 6 11;
     -fx-cursor: hand;
 }
-.mini-button:hover    { -fx-background-color: #2a2a30; }
-.mini-button:pressed  { -fx-background-color: red; }
-.mini-danger:hover    { -fx-background-color: #7f1d1d; }
+.mini-button:hover    { -fx-background-color: #e11d1d, #2a1012; -fx-text-fill: white; }
+.mini-button:pressed  { -fx-background-color: #b81414, #3d1010; }
+.mini-danger:hover    { -fx-background-color: #ef4444, #3d1010; }
 .mini-button:disabled { -fx-opacity: 0.30; }
+
+/* =====================================================================
+   LIGHT THEME (the .light class is added by ThemeManager)
+   ===================================================================== */
+.light .admin-search { -fx-background-color: #ffffff; -fx-border-color: #cfd2d9; -fx-text-fill: #14151a; -fx-prompt-text-fill: #9a9fab; }
+.light .admin-search:focused { -fx-border-color: #e11d1d; }
+.light .admin-combo { -fx-background-color: #ffffff; -fx-border-color: #cfd2d9; }
+.light .admin-combo:focused { -fx-border-color: #e11d1d; }
+.light .admin-combo .list-cell { -fx-text-fill: #14151a; }
+.light .admin-combo .arrow { -fx-background-color: #5b5f6a; }
+
+.light .top-button { -fx-background-color: #ffffff; -fx-border-color: #d0d3da; -fx-text-fill: #14151a; }
+.light .top-button:hover { -fx-background-color: #fff5f5; -fx-border-color: #e11d1d; }
+.light .empty-text { -fx-text-fill: #8a8f9a; }
+.light .cards-scroll .scroll-bar .thumb { -fx-background-color: #c4c7cf; }
+
+.light .user-card {
+    -fx-background-color: #dcdee3, #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(20,21,26,0.08), 10, 0.0, 0, 2);
+}
+.light .user-card:hover {
+    -fx-background-color: #e11d1d, #fffafa;
+    -fx-effect: dropshadow(gaussian, rgba(225,29,29,0.20), 14, 0.1, 0, 3);
+}
+.light .user-card-me {
+    -fx-background-color: linear-gradient(to bottom, #e11d1d, #f08080), #ffffff;
+}
+.light .user-card-me:hover {
+    -fx-background-color: linear-gradient(to bottom, #ff3030, #f08080), #fffafa;
+}
+
+.light .card-name     { -fx-text-fill: #14151a; }
+.light .card-username { -fx-text-fill: #6b7080; }
+.light .card-id       { -fx-text-fill: #8a8f9a; -fx-background-color: #eef0f3; }
+
+.light .avatar-super        { -fx-background-color: #f59e0b, #fef3c7; -fx-text-fill: #b45309; }
+.light .avatar-admin        { -fx-background-color: #a855f7, #f3e8ff; -fx-text-fill: #7e22ce; }
+.light .avatar-receptionist { -fx-background-color: #3b82f6, #dbeafe; -fx-text-fill: #1d4ed8; }
+.light .avatar-mechanic     { -fx-background-color: #22c55e, #dcfce7; -fx-text-fill: #15803d; }
+.light .avatar-other        { -fx-background-color: #9ca3af, #f3f4f6; -fx-text-fill: #4b5563; }
+
+.light .role-super        { -fx-background-color: #f5c46b, #fef3c7; -fx-text-fill: #b45309; }
+.light .role-admin        { -fx-background-color: #d8b4fe, #f3e8ff; -fx-text-fill: #7e22ce; }
+.light .role-receptionist { -fx-background-color: #93c5fd, #dbeafe; -fx-text-fill: #1d4ed8; }
+.light .role-mechanic     { -fx-background-color: #86efac, #dcfce7; -fx-text-fill: #15803d; }
+.light .role-other        { -fx-background-color: #d1d5db, #f3f4f6; -fx-text-fill: #4b5563; }
+
+.light .pin-chip { -fx-background-color: #f5c46b, #fef3c7; -fx-text-fill: #b45309; }
+.light .you-chip { -fx-background-color: #f5a3a3, #fee2e2; -fx-text-fill: #b91c1c; }
+
+.light .mini-button { -fx-background-color: #d0d3da, #ffffff; -fx-text-fill: #14151a; }
+.light .mini-button:hover { -fx-background-color: #e11d1d, #fff1f1; -fx-text-fill: #b91c1c; }
+.light .mini-danger:hover { -fx-background-color: #ef4444, #fee2e2; }
